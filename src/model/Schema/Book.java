@@ -11,9 +11,6 @@ public class Book {
     private int copies_available;
     private float selling_price;
 
-
-
-
     public String getISBN() {
         return ISBN;
     }

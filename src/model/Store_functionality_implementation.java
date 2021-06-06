@@ -5,10 +5,7 @@ import model.Schema.Book;
 import model.Schema.Book_Order;
 import utils.DatabaseCreds;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Store_functionality_implementation implements Store_functionality {
     private DatabaseCreds databaseCreds;
@@ -65,8 +62,24 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     @Override
-    public void place_order(Book_Order order) {
-
+    public String place_order(Book_Order order) throws SQLException {
+        String msg = "";
+        System.out.println("Connected to the database");
+        String sql = "INSERT INTO book (ISBN, author, title, publisher_name, category, year, threshold, copies_available, selling_price) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, order.getISBN());
+        statement.setString(2, order.getTitle());
+        statement.setDate(3, (Date) order.getDate_ordered());
+        statement.setString(4, order.getUser_name());
+        statement.setInt(5, order.getCopies());
+        int rows = statement.executeUpdate();
+        if (rows > 0) {
+            msg = "a row has been updated";
+        } else {
+            msg = "Book already Exists";
+        }
+        conn.commit();
+        return msg;
     }
 
     @Override
