@@ -1,0 +1,2 @@
+ALTER TABLE BOOK
+    ADD CHECK (Age>=18);
