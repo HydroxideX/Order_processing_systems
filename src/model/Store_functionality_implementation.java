@@ -1,8 +1,8 @@
 package model;
 
-import controller.Store_functionality;
 import model.Schema.Book;
 import model.Schema.Book_Order;
+import model.Schema.User;
 import utils.DatabaseCreds;
 
 import java.sql.*;
@@ -10,6 +10,7 @@ import java.sql.*;
 public class Store_functionality_implementation implements Store_functionality {
     private DatabaseCreds databaseCreds;
     private Connection conn;
+
     public void init() throws SQLException {
         databaseCreds = new DatabaseCreds();
         databaseCreds.read_credentials();
@@ -90,5 +91,28 @@ public class Store_functionality_implementation implements Store_functionality {
     @Override
     public void confirm_order(Book_Order order) {
 
+    }
+
+    @Override
+    public User get_user(String user_name, String password) throws SQLException {
+        String sql = "select * from ONLINE_USER  (user_name, password) values (?, ?)";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, user_name);
+        statement.setString(2, password);
+        DatabaseCreds databaseCreds = new DatabaseCreds();
+        databaseCreds.read_credentials();
+        System.out.println("Connected to the database");
+        ResultSet rs = statement.executeQuery();
+        User user = null;
+        while (rs.next()){
+            if(user!=null){
+                throw new SQLException("more than one user has same user_name !!!");
+            }
+            user = new User();
+            user.setUser_name(rs.getString("USER_NAME"));
+            user.setEmail(rs.getString("EMAIL_ADDRESS"));
+            user.setIs_manager(rs.getBoolean("MANAGER BOOL"));
+        }
+        return user;
     }
 }

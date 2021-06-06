@@ -10,6 +10,7 @@ public class User {
     private String shipping_address = "";
     private boolean is_manager = false;
     private boolean logged_in = false;
+   // private String[] fields = ["user_name","password","email",]
 
     public String getUser_name() {
         return user_name;

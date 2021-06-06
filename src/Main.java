@@ -34,10 +34,12 @@ public class Main {
         String sql = "select * from book";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
+
         while (rs.next()) {
-            String author = rs.getString("name");
+
+            String author = rs.getString("author");
             System.out.println(author);
-            String supplierID = rs.getString("author_id");
+            String supplierID = rs.getString("title");
             System.out.println(supplierID);
         }
         statement.close();
@@ -47,11 +49,13 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-           testInsert();
-          //  testSelect();
+         //  testInsert();
+          testSelect();
         } catch (SQLException e) {
             System.out.println("Cant connect to database");
             e.printStackTrace();
         }
+
     }
+
 }
