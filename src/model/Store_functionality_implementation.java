@@ -1,7 +1,8 @@
-package controller;
+package model;
 
-import model.Book;
-import model.Book_Order;
+import controller.Store_functionality;
+import model.Scema.Book;
+import model.Scema.Book_Order;
 
 public class Store_functionality_implementation implements Store_functionality {
 
@@ -22,6 +23,11 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public void search_for_book(Book book) {
+
+    }
+
+    @Override
+    public void confirm_order(Book_Order order) {
 
     }
 }

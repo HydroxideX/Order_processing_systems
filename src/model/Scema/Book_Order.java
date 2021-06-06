@@ -1,4 +1,4 @@
-package model;
+package model.Scema;
 
 import java.util.Date;
 

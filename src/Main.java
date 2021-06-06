@@ -9,10 +9,10 @@ public class Main {
         databaseCreds.read_credentials();
         Connection connection = DriverManager.getConnection(databaseCreds.getUrl(), databaseCreds.getUsername(), databaseCreds.getPassword());
         System.out.println("Connected to the database");
-        String sql = "INSERT INTO BOOK (name, id) values (?, ?)";
+        String sql = "INSERT INTO author (name, AUTHOR_ID) values (?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, "theamazingbook");
-        statement.setInt(2, 15);
+        statement.setString(2, "15");
         int rows = statement.executeUpdate();
         if (rows > 0) {
             System.out.println("a row has been updated");
@@ -45,7 +45,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            testSelect();
+            testInsert();
             testSelect();
         } catch (SQLException e) {
             System.out.println("Cant connect to database");

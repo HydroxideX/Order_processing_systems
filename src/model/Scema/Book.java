@@ -1,4 +1,4 @@
-package model;
+package model.Scema;
 
 public class Book {
     private String ISBN = "";

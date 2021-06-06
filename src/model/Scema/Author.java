@@ -1,4 +1,4 @@
-package model;
+package model.Scema;
 
 public class Author {
     private String name = "";

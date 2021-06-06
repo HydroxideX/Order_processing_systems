@@ -1,4 +1,4 @@
-package model;
+package model.Scema;
 
 public class Publisher {
     private String name = "";
