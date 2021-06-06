@@ -1,4 +1,4 @@
-package model.Scema;
+package model.Schema;
 
 public class User {
     private String user_name = "";

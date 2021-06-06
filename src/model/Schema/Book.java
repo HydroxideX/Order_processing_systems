@@ -1,4 +1,4 @@
-package model.Scema;
+package model.Schema;
 
 public class Book {
     private String ISBN = "";
@@ -8,7 +8,11 @@ public class Book {
     private String category = "";
     private int year;
     private int threshold;
+    private int copies_available;
     private float selling_price;
+
+
+
 
     public String getISBN() {
         return ISBN;
@@ -64,6 +68,14 @@ public class Book {
 
     public void setThreshold(int threshold) {
         this.threshold = threshold;
+    }
+
+    public int getCopies_available() {
+        return copies_available;
+    }
+
+    public void setCopies_available(int copies_available) {
+        this.copies_available = copies_available;
     }
 
     public float getSelling_price() {

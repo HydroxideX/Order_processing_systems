@@ -1,19 +1,67 @@
 package model;
 
 import controller.Store_functionality;
-import model.Scema.Book;
-import model.Scema.Book_Order;
+import model.Schema.Book;
+import model.Schema.Book_Order;
+import utils.DatabaseCreds;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Store_functionality_implementation implements Store_functionality {
-
-    @Override
-    public void add_new_book(Book book) {
-
+    private DatabaseCreds databaseCreds;
+    private Connection conn;
+    public void init() throws SQLException {
+        databaseCreds = new DatabaseCreds();
+        databaseCreds.read_credentials();
+        conn = DriverManager.getConnection(databaseCreds.getUrl(), databaseCreds.getUsername(), databaseCreds.getPassword());
+        conn.setAutoCommit(false);
     }
 
     @Override
-    public void modify_existing_book(Book old_book, Book new_book) {
+    public String add_new_book(Book book) throws SQLException {
+        String msg = "";
+        System.out.println("Connected to the database");
+        String sql = "INSERT INTO book (ISBN, author, title, publisher_name, category, year, threshold, copies_available, selling_price) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, book.getISBN());
+        statement.setString(2, book.getAuthor());
+        statement.setString(3, book.getTitle());
+        statement.setString(4, book.getPublisher_name());
+        statement.setString(5, book.getCategory());
+        statement.setInt(6, book.getYear());
+        statement.setInt(7, book.getThreshold());
+        statement.setInt(8, book.getThreshold());
+        statement.setFloat(9, book.getSelling_price());
+        int rows = statement.executeUpdate();
+        if (rows > 0) {
+            msg = "a row has been updated";
+        } else {
+            msg = "Book already Exists";
+        }
+        conn.commit();
+        return msg;
+    }
 
+    @Override
+    public String modify_existing_book(Book book, int quantity) throws SQLException {
+        String msg = "";
+        System.out.println("Connected to the database");
+        String sql = "UPDATE BOOK SET COPIES = COPIES + ? WHERE ISBN = ? AND TITLE = ?";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, quantity);
+        statement.setString(2, book.getISBN());
+        statement.setString(3, book.getTitle());
+        int rows = statement.executeUpdate();
+        if (rows > 0) {
+            msg = "a row has been updated";
+        } else {
+            msg = "Book doesn't Exists or update failed";
+        }
+        conn.commit();
+        return msg;
     }
 
     @Override
