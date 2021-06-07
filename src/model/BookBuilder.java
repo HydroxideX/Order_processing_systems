@@ -12,11 +12,11 @@ public class BookBuilder {
     private int threshold = -1;
     private int copies_available = -1;
     private float selling_price = -1;
+
     private static final BookBuilder instance = new BookBuilder();
     private BookBuilder() {
 
     }
-
     public static BookBuilder getInstance() {
         return instance;
     }

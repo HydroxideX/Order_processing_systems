@@ -2,8 +2,6 @@ package model;
 
 import model.Schema.Book;
 import utils.regex_matcher;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SearchBookQuery {

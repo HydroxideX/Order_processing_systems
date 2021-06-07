@@ -159,5 +159,4 @@ public class User_Proxy {
         return store.get_top_books(10);
     }
 
-
 }
