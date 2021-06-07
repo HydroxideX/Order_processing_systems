@@ -6,9 +6,9 @@ CREATE TABLE BOOK (
                       PUBLISHER_NAME VARCHAR(30),
                       PUBLICATION_YEAR YEAR,
                       CATEGORY VARCHAR(30),
-                      SELLING_PRICE FLOAT,
-                      THRESHOLD INT,
-                      COPIES INT,
+                      SELLING_PRICE FLOAT NOT NULL,
+                      THRESHOLD INT NOT null,
+                      COPIES INT default 0,
                       PRIMARY KEY(ISBN),
                       FOREIGN KEY (PUBLISHER_NAME) REFERENCES PUBLISHER (PUBLISHER_NAME) ON UPDATE CASCADE ON DELETE CASCADE
 );
