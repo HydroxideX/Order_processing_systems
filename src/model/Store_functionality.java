@@ -13,4 +13,6 @@ public interface Store_functionality {
     public String confirm_order(Book_Order order) throws SQLException;
     public void search_for_book(SearchBookQuery sq) throws SQLException;
     public User get_user(String user_name , String password) throws SQLException;
+    public int get_available_book(String isbn) throws SQLException;
+    public boolean set_manager(String email) throws SQLException;
 }

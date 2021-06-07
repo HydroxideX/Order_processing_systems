@@ -2,6 +2,8 @@ package model.Schema;
 
 import utils.regex_matcher;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Book_Order {
@@ -17,13 +19,17 @@ public class Book_Order {
         this.user_name = user_name;
         this.copies = copies;
         this.date_ordered = date_ordered;
+        if (this.date_ordered == null) {
+            java.util.Date utilDate = new java.util.Date();
+            this.date_ordered = new java.sql.Date(utilDate.getTime());
+        }
     }
 
     public boolean is_valid() {
         regex_matcher rm = new regex_matcher();
         return rm.check_varchar(ISBN) & rm.check_varchar(title) &
                 rm.check_varchar(user_name)
-               & copies != -1 & date_ordered != null;
+                & copies != -1 & date_ordered != null;
     }
 
     public String getISBN() {

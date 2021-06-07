@@ -9,7 +9,7 @@ CREATE TABLE BOOK (
                       SELLING_PRICE FLOAT,
                       THRESHOLD INT,
                       COPIES INT,
-                      PRIMARY KEY(ISBN, TITLE),
+                      PRIMARY KEY(ISBN),
                       FOREIGN KEY (PUBLISHER_NAME) REFERENCES PUBLISHER (PUBLISHER_NAME) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

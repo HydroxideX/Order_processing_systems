@@ -38,6 +38,8 @@ public class OrderBuilder {
     }
 
     public Book_Order build(){
+        java.util.Date utilDate = new java.util.Date();
+        this.date_ordered = new java.sql.Date(utilDate.getTime());
         return new Book_Order(ISBN, title, user_name, copies, date_ordered);
     }
 }

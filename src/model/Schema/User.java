@@ -8,9 +8,9 @@ public class User {
     private String last_name = "";
     private String phone_no = "";
     private String shipping_address = "";
-    private boolean is_manager = false;
+    private boolean manager = false;
     private boolean logged_in = false;
-   // private String[] fields = ["user_name","password","email",]
+    // private String[] fields = ["user_name","password","email",]
 
     public String getUser_name() {
         return user_name;
@@ -68,12 +68,12 @@ public class User {
         this.shipping_address = shipping_address;
     }
 
-    public boolean isIs_manager() {
-        return is_manager;
+    public boolean is_manager() {
+        return manager;
     }
 
-    public void setIs_manager(boolean is_manager) {
-        this.is_manager = is_manager;
+    public void set_manager(boolean manager) {
+        this.manager = manager;
     }
 
     public boolean isLogged_in() {
