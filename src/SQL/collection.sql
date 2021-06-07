@@ -86,6 +86,7 @@ insert into AUTHOR values("hamza" , 10);
 insert into book (ISBN ,TITLE,COPIES,THRESHOLD) values(1 , "how to kill myslif?" ,15,10);
 update book set COPIES = 7 where ISBN = 1 ;
 update book set COPIES = 5 where ISBN = 1 ;
-
+insert into publisher values('yahia', 'yahia', 'yahia');
 select * from book ;
 select * from BOOK_ORDER;
+select * from publisher;

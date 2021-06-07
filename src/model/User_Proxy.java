@@ -26,8 +26,8 @@ public class User_Proxy {
         return false;
     }
 
-    void search(Book book) {
-        return;
+    void search(SearchBookQuery sq) throws SQLException {
+        store.search_for_book(sq);
     }
 
     void add_book(Book book) {

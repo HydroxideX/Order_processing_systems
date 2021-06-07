@@ -10,6 +10,7 @@ import java.sql.*;
 public class Store_functionality_implementation implements Store_functionality {
     private DatabaseCreds databaseCreds;
     private Connection conn;
+    private String msg = "";
 
     public void init() throws SQLException {
         databaseCreds = new DatabaseCreds();
@@ -18,79 +19,83 @@ public class Store_functionality_implementation implements Store_functionality {
         conn.setAutoCommit(false);
     }
 
+    private String build_message_update(int rows) {
+        if (rows > 0) {
+            return "row changed.";
+        } else {
+            return "Error no change applied to table.";
+        }
+    }
+
     @Override
     public String add_new_book(Book book) throws SQLException {
-        String msg = "";
-        System.out.println("Connected to the database");
-        String sql = "INSERT INTO book (ISBN, author, title, publisher_name, category, year, threshold, copies_available, selling_price) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setString(1, book.getISBN());
-        statement.setString(2, book.getAuthor());
-        statement.setString(3, book.getTitle());
-        statement.setString(4, book.getPublisher_name());
-        statement.setString(5, book.getCategory());
-        statement.setInt(6, book.getYear());
-        statement.setInt(7, book.getThreshold());
-        statement.setInt(8, book.getThreshold());
-        statement.setFloat(9, book.getSelling_price());
-        int rows = statement.executeUpdate();
-        if (rows > 0) {
-            msg = "a row has been updated";
-        } else {
-            msg = "Book already Exists";
-        }
+         if(!book.is_valid()) return "ERROR: values missing for add new book";
+        String sql = "INSERT INTO BOOK VALUES ('" + book.getISBN() + "', '" + book.getAuthor()
+                     + "', '" + book.getTitle() +  "', '" + book.getPublisher_name() + "', '"
+                     +book.getYear()  + "', '" + book.getCategory()  + "', '" + book.getSelling_price()
+                     + "', '" + book.getThreshold() + "', '" + book.getCopies_available()  + "')";
+         PreparedStatement statement = conn.prepareStatement(sql);
+        msg = build_message_update(statement.executeUpdate());
         conn.commit();
+        statement.close();
         return msg;
     }
 
     @Override
-    public String modify_existing_book(Book book, int quantity) throws SQLException {
-        String msg = "";
-        System.out.println("Connected to the database");
-        String sql = "UPDATE BOOK SET COPIES = COPIES + ? WHERE ISBN = ? AND TITLE = ?";
+    public String modify_existing_book(Book book, int quantity_change) throws SQLException {
+        String sql = "UPDATE BOOK SET COPIES = COPIES +" + quantity_change + " WHERE ISBN = '"
+                        + book.getISBN() + "' AND TITLE = '" + book.getTitle() + "';";
         PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setInt(1, quantity);
-        statement.setString(2, book.getISBN());
-        statement.setString(3, book.getTitle());
-        int rows = statement.executeUpdate();
-        if (rows > 0) {
-            msg = "a row has been updated";
-        } else {
-            msg = "Book doesn't Exists or update failed";
-        }
+        msg = build_message_update(statement.executeUpdate());
         conn.commit();
+        statement.close();
         return msg;
     }
 
     @Override
     public String place_order(Book_Order order) throws SQLException {
-        String msg = "";
-        System.out.println("Connected to the database");
-        String sql = "INSERT INTO book (ISBN, author, title, publisher_name, category, year, threshold, copies_available, selling_price) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        if(!order.is_valid()) return "ERROR: values missing for add place order";
+        String sql ="INSERT INTO BOOK_ORDER VALUES ('" + order.getISBN() + "', '" + order.getTitle() +
+                "', '" + order.getDate_ordered() + "', '" + order.getUser_name()+ "', '" + order.getCopies() +"');";
         PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setString(1, order.getISBN());
-        statement.setString(2, order.getTitle());
-        statement.setDate(3, (Date) order.getDate_ordered());
-        statement.setString(4, order.getUser_name());
-        statement.setInt(5, order.getCopies());
-        int rows = statement.executeUpdate();
-        if (rows > 0) {
-            msg = "a row has been updated";
-        } else {
-            msg = "Book already Exists";
-        }
+        msg = build_message_update(statement.executeUpdate());
         conn.commit();
+        statement.close();
         return msg;
     }
 
     @Override
-    public void search_for_book(Book book) {
-
+    public String confirm_order(Book_Order order) throws SQLException {
+        if(!order.is_valid()) return "ERROR: values missing for confirm order";
+        String sql = "DELETE FROM book_order WHERE ISBN = '" +order.getISBN() +"' AND TITLE = '"+
+                order.getTitle()+"' AND DATE_ORDERED = '"+order.getDate_ordered() +"' AND USER_NAME = '"+
+                order.getUser_name()+"'  AND COPIES = '" + order.getCopies() + "'  LIMIT 1;";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        msg = build_message_update(statement.executeUpdate());
+        conn.commit();
+        statement.close();
+        return msg;
     }
 
     @Override
-    public void confirm_order(Book_Order order) {
-
+    public void search_for_book(SearchBookQuery sq) throws SQLException {
+        System.out.println("Connected to the database");
+        String sql = "SELECT * FROM BOOK";
+        String where_stmt = sq.build_where_statement();
+        sql += where_stmt + ";";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
+        BookBuilder bb = BookBuilder.getInstance();
+        while (rs.next()) {
+            bb.setAuthor(rs.getString("author")).setCategory(rs.getString("category"))
+                    .setCopies_available(rs.getInt("copies")).setISBN(rs.getString("ISBN"))
+                    .setPublisher_name(rs.getString("publisher_name"))
+                    .setSelling_price(rs.getFloat("selling_price")).setThreshold(rs.getInt("threshold"))
+                    .setTitle(rs.getString("title")).setYear(rs.getInt("publication_year"));
+            sq.add_to_result(bb.build());
+        }
+        conn.commit();
+        statement.close();
     }
 
     @Override

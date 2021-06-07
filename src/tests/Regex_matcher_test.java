@@ -10,8 +10,8 @@ public class Regex_matcher_test {
     regex_matcher match = new regex_matcher();
     @Test
     public void testDate(){
-        String date1 = "21-12-1999";
-        String date2 = "122-15-632";
+        String date1 = "2001-12-19";
+        String date2 = "12212-15-63";
         String date3 = "15-36-15323";
         assertTrue(match.check_date(date1));
         assertFalse(match.check_date(date2));

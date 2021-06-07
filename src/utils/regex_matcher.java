@@ -1,17 +1,19 @@
 package utils;
 
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class regex_matcher {
-    String [] category_values = {"Science, Art, religion ,History, Geography"};
+    String [] category_values = {"science", "art", "religion" ,"history", "geography"};
 
     public boolean check_varchar(String s) {
-        return s.length() > 0 && s.length() <= 30;
+        return s != null && s.length() > 0 && s.length() <= 30;
     }
 
     public boolean check_category(String category) {
+        if(category == null) return false;
         for (String category_value : category_values) {
             if (category_value.compareTo(category) == 0) return true;
         }
@@ -30,7 +32,7 @@ public class regex_matcher {
     }
 
     public boolean check_date(String s) {
-        String date_regex = "^\\d{2}-\\d{2}-\\d{4}$";
+        String date_regex = "^\\d{4}-\\d{2}-\\d{2}$";
         return match_string(s, date_regex);
     }
 
@@ -42,5 +44,9 @@ public class regex_matcher {
     public boolean check_float(String s) {
         String float_regex = "^([+]?\\d+\\.?\\d*)$";
         return match_string(s, float_regex);
+    }
+
+    public boolean check_valid_year(int year) {
+        return year>0 && year <= Calendar.getInstance().get(Calendar.YEAR);
     }
 }

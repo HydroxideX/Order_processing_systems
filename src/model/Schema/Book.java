@@ -1,15 +1,36 @@
 package model.Schema;
-
+import utils.regex_matcher;
 public class Book {
-    private String ISBN = "";
-    private String author = "";
-    private String title = "";
-    private String publisher_name = "";
-    private String category = "";
-    private int year;
-    private int threshold;
-    private int copies_available;
-    private float selling_price;
+    private String ISBN =  null;
+    private String author =  null;
+    private String title =  null;
+    private String publisher_name =  null;
+    private String category = null;
+    private int year = -1;
+    private int threshold = -1;
+    private int copies_available = -1;
+    private float selling_price = -1;
+
+    public Book(String ISBN, String author, String title, String publisher_name,
+                String category, int year, int threshold, int copies_available,
+                float selling_price) {
+        this.ISBN = ISBN;
+        this.author = author;
+        this.title = title;
+        this.publisher_name = publisher_name;
+        this.category = category;
+        this.year = year;
+        this.threshold = threshold;
+        this.copies_available = copies_available;
+        this.selling_price = selling_price;
+    }
+
+    public boolean is_valid() {
+        regex_matcher rm = new regex_matcher();
+        return rm.check_varchar(ISBN) & rm.check_varchar(author) & rm.check_varchar(title) &
+                rm.check_varchar(publisher_name) & rm.check_category(category) & rm.check_valid_year(year) &
+                threshold != -1 & copies_available != -1 & selling_price != -1;
+    }
 
     public String getISBN() {
         return ISBN;
