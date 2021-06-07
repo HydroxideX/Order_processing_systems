@@ -24,11 +24,7 @@ public class LoginForm extends Application {
         primaryStage.setTitle("Login Form");
         GridPane gridPane = componentsBuilder.createFormPane(false);
         VBox vBox = new VBox();
-        vBox.setPadding(new Insets(10,10,10,10));
-        Button back = new Button();
-        Button logout = new Button("Logout");
-        HBox hBox = componentsBuilder.buildTopHBox(back, logout);
-        vBox.getChildren().addAll(hBox, gridPane);
+        vBox.getChildren().addAll(gridPane);
         addUIControls(gridPane,primaryStage);
         Scene scene = new Scene(vBox, 800, 640);
         primaryStage.setScene(scene);

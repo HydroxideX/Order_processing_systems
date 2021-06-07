@@ -20,18 +20,13 @@ public class StoreFunctionsForm extends Application  {
         GridPane gridPane = componentsBuilder.createFormPane(true);
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10,10,10,10));
-        Button back = new Button();
         Button logout = new Button("Logout");
-        HBox hBox = componentsBuilder.buildTopHBox(back, logout);
+        HBox hBox = componentsBuilder.buildTopHBox(logout);
         vBox.getChildren().addAll(hBox, gridPane);
         addUIControls(gridPane);
         Scene scene = new Scene(vBox, 800, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    void check_is_manager_buttons(boolean is_manager) {
-
     }
 
     private void addUIControls(GridPane gridPane) {
