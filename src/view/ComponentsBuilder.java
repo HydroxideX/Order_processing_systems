@@ -49,6 +49,15 @@ public class ComponentsBuilder {
         return hBox;
     }
 
+    public HBox buildTopHBox(Button logout){
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        logout.setPadding(new Insets (10,10,10,10));
+        logout.setFocusTraversable(false);
+        hBox.getChildren().addAll(logout);
+        return hBox;
+    }
+
     public Label addLabel(GridPane gridPane, String s, int row, int col){
         Label label = new Label(s);
         gridPane.add(label, col, row);
