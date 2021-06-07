@@ -2,18 +2,14 @@ package view;
 
 import controller.Controller;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.sql.SQLException;
 
@@ -21,6 +17,9 @@ public class LoginForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(700);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Login Form");
         GridPane gridPane = componentsBuilder.createFormPane(false);
         VBox vBox = new VBox();

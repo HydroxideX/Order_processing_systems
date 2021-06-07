@@ -34,6 +34,7 @@ public class ComponentsBuilder {
 
     public HBox buildTopHBox(Button back, Button logout, Stage primaryStage){
         HBox hBox = new HBox();
+        HBox h1 = buildTopHBox(logout,primaryStage);
         hBox.setSpacing(10);
         Image image = null;
         try {
@@ -43,20 +44,10 @@ public class ComponentsBuilder {
         }
         back.setGraphic(new ImageView(image));
         back.setPadding(new Insets (10,10,10,10));
-        logout.setPadding(new Insets (10,10,10,10));
         back.setFocusTraversable(false);
-        logout.setFocusTraversable(false);
-        hBox.getChildren().addAll(back, logout);
+        hBox.getChildren().addAll(back, h1);
         back.setOnAction(event -> {
             StoreFunctionsForm gui=new StoreFunctionsForm();
-            try {
-                gui.start(primaryStage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        logout.setOnAction(event -> {
-            LoginForm gui=new LoginForm();
             try {
                 gui.start(primaryStage);
             } catch (Exception e) {
