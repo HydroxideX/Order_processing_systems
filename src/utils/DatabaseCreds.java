@@ -21,7 +21,7 @@ public class DatabaseCreds {
 
     public void read_credentials(){
         try {
-            File myObj = new File("soso");
+            File myObj = new File("credentials");
             Scanner myReader = new Scanner(myObj);
             this.url = myReader.nextLine();
             this.username = myReader.nextLine();

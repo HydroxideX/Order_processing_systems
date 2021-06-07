@@ -10,16 +10,15 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import utils.regex_matcher;
 
 import java.sql.SQLException;
 
-public class BookAdditionForm extends Application {
+public class SearchBookForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Book Addition Form");
+        primaryStage.setTitle("Search Book Form");
         GridPane gridPane = componentsBuilder.createFormPane(false);
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10, 10, 10, 10));
@@ -34,7 +33,7 @@ public class BookAdditionForm extends Application {
     }
 
     private void addUIControls(GridPane gridPane) {
-        Label headerLabel = new Label("Add Books");
+        Label headerLabel = new Label("Search Books");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         gridPane.add(headerLabel, 0, 0, 2, 1);
         GridPane.setHalignment(headerLabel, HPos.CENTER);
@@ -49,25 +48,17 @@ public class BookAdditionForm extends Application {
         TextField publisher = componentsBuilder.addTextField(gridPane, 40, 5, 1);
         Label category_label = componentsBuilder.addLabel(gridPane, "Category", 6, 0);
         TextField category = componentsBuilder.addTextField(gridPane, 40, 6, 1);
-        Label year_label = componentsBuilder.addLabel(gridPane, "Year", 7, 0);
-        TextField year = componentsBuilder.addTextField(gridPane, 40, 7, 1);
-        Label threshold_label = componentsBuilder.addLabel(gridPane, "Threshold", 8, 0);
-        TextField threshold = componentsBuilder.addTextField(gridPane, 40, 8, 1);
+        Label year_lower_label = componentsBuilder.addLabel(gridPane, "Before Year", 7, 0);
+        TextField year_lower = componentsBuilder.addTextField(gridPane, 40, 7, 1);
+        Label year_upper_label = componentsBuilder.addLabel(gridPane, "After Year", 8, 0);
+        TextField year_upper = componentsBuilder.addTextField(gridPane, 40, 8, 1);
         Label copies_label = componentsBuilder.addLabel(gridPane, "Copies", 9, 0);
         TextField copies = componentsBuilder.addTextField(gridPane, 40, 9, 1);
-        Label price_label = componentsBuilder.addLabel(gridPane, "Price", 10, 0);
-        TextField price = componentsBuilder.addTextField(gridPane, 40, 10, 1);
-        Button addBook = componentsBuilder.build_center_button(gridPane, "Add", 40, 100, 0, 11, 2, 1);
-        addBook.setOnAction(event -> {
-             regex_matcher  matcher = new regex_matcher();
-           boolean can =  ( matcher.check_varchar(ISBN.getText()) && matcher.check_varchar(title.getText())
-           && matcher.check_category(category.getText()) && matcher.check_float(price.getText())
-           && matcher.check_int(threshold.getText()) );
-           if(!can){
-               componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Book data");
-           }
-
-        });
+        Label price_lower_label = componentsBuilder.addLabel(gridPane, "Lower Price", 10, 0);
+        TextField price_lower = componentsBuilder.addTextField(gridPane, 40, 10, 1);
+        Label price_upper_label = componentsBuilder.addLabel(gridPane, "Upper Price", 11, 0);
+        TextField price_upper = componentsBuilder.addTextField(gridPane, 40, 11, 1);
+        Button search = componentsBuilder.build_center_button(gridPane, "Search", 40, 100, 0, 12, 2, 1);
 
     }
 

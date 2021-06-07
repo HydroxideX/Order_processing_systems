@@ -20,7 +20,7 @@ public class CheckoutForm extends Application {
         vBox.setPadding(new Insets(10,10,10,10));
         Button back = new Button();
         Button logout = new Button("Logout");
-        HBox hBox = componentsBuilder.buildTopHBox(back, logout);
+        HBox hBox = componentsBuilder.buildTopHBox(back, logout, primaryStage);
         vBox.getChildren().addAll(hBox, gridPane);
         addUIControls(gridPane);
         Scene scene = new Scene(vBox, 800, 640);

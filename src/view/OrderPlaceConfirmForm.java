@@ -10,6 +10,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import model.Store_functionality;
+import model.Store_functionality_implementation;
 
 public class OrderPlaceConfirmForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
@@ -22,7 +24,7 @@ public class OrderPlaceConfirmForm extends Application {
         vBox.setPadding(new Insets(10,10,10,10));
         Button back = new Button();
         Button logout = new Button("Logout");
-        HBox hBox = componentsBuilder.buildTopHBox(back, logout);
+        HBox hBox = componentsBuilder.buildTopHBox(back, logout, primaryStage);
         HBox hBox1 = new HBox();
         hBox1.setAlignment(Pos.CENTER);
         hBox1.setSpacing(20);

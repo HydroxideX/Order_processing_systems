@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.FileInputStream;
@@ -31,7 +32,7 @@ public class ComponentsBuilder {
         return btn;
     }
 
-    public HBox buildTopHBox(Button back, Button logout){
+    public HBox buildTopHBox(Button back, Button logout, Stage primaryStage){
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         Image image = null;
@@ -46,15 +47,39 @@ public class ComponentsBuilder {
         back.setFocusTraversable(false);
         logout.setFocusTraversable(false);
         hBox.getChildren().addAll(back, logout);
+        back.setOnAction(event -> {
+            StoreFunctionsForm gui=new StoreFunctionsForm();
+            try {
+                gui.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        logout.setOnAction(event -> {
+            LoginForm gui=new LoginForm();
+            try {
+                gui.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         return hBox;
     }
 
-    public HBox buildTopHBox(Button logout){
+    public HBox buildTopHBox(Button logout, Stage primaryStage){
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         logout.setPadding(new Insets (10,10,10,10));
         logout.setFocusTraversable(false);
         hBox.getChildren().addAll(logout);
+        logout.setOnAction(event -> {
+            LoginForm gui=new LoginForm();
+            try {
+                gui.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         return hBox;
     }
 
