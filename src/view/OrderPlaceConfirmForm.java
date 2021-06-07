@@ -17,21 +17,19 @@ public class OrderPlaceConfirmForm extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Order Place/Confirm Form");
-        GridPane gridPane = componentsBuilder.createFormPane();
+        GridPane gridPane = componentsBuilder.createFormPane(false);
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10,10,10,10));
         Button back = new Button();
         Button logout = new Button("Logout");
         HBox hBox = componentsBuilder.buildTopHBox(back, logout);
-        vBox.getChildren().addAll(hBox);
         HBox hBox1 = new HBox();
         hBox1.setAlignment(Pos.CENTER);
         hBox1.setSpacing(20);
-        vBox.getChildren().add(gridPane);
-        vBox.getChildren().add(hBox1);
+        vBox.getChildren().addAll(hBox,gridPane,hBox1);
         addUIControls(gridPane);
-        Button place_order = componentsBuilder.buildButton(hBox, "Place Order",40, 200, true);
-        Button confirm_order = componentsBuilder.buildButton(hBox, "Confirm Order",  40, 200, true);
+        Button place_order = componentsBuilder.buildButton(hBox1, "Place Order",40, 200, true);
+        Button confirm_order = componentsBuilder.buildButton(hBox1, "Confirm Order",  40, 200, true);
         Scene scene = new Scene(vBox, 800, 640);
         primaryStage.setScene(scene);
         primaryStage.show();

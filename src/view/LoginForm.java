@@ -22,7 +22,7 @@ public class LoginForm extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Login Form");
-        GridPane gridPane = componentsBuilder.createFormPane();
+        GridPane gridPane = componentsBuilder.createFormPane(false);
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10,10,10,10));
         Button back = new Button();

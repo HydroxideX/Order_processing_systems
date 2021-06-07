@@ -17,7 +17,7 @@ public class GenerateReportsForm extends Application  {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Reports");
-        GridPane gridPane = componentsBuilder.createFormPane();
+        GridPane gridPane = componentsBuilder.createFormPane(true);
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(10,10,10,10));
         Button back = new Button();
@@ -25,7 +25,7 @@ public class GenerateReportsForm extends Application  {
         HBox hBox = componentsBuilder.buildTopHBox(back, logout);
         vBox.getChildren().addAll(hBox, gridPane);
         addUIControls(gridPane);
-        Scene scene = new Scene(vBox, 800, 640);
+        Scene scene = new Scene(vBox, 800, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -35,8 +35,8 @@ public class GenerateReportsForm extends Application  {
         Label headerLabel = new Label("Reports");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         gridPane.add(headerLabel, 1,0,2,1);
-        GridPane.setHalignment(headerLabel, HPos.CENTER);
         GridPane.setMargin(headerLabel, new Insets(20, 0,20,0));
+        GridPane.setHalignment(headerLabel,HPos.CENTER);
         Button sales = componentsBuilder.buildButton(gridPane, "Total Book Sales", 2, 1, 40, 200, true);
         Button topCustomers = componentsBuilder.buildButton(gridPane, "Top Five Customers", 3, 1, 40, 200, true);
         Button topBooks = componentsBuilder.buildButton(gridPane, "Top Ten Books", 4, 1, 40, 200, true);
