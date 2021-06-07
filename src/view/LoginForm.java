@@ -1,5 +1,6 @@
 package view;
 
+import controller.controller;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +15,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.sql.SQLException;
+
 public class LoginForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
     @Override
@@ -26,13 +29,13 @@ public class LoginForm extends Application {
         Button logout = new Button("Logout");
         HBox hBox = componentsBuilder.buildTopHBox(back, logout);
         vBox.getChildren().addAll(hBox, gridPane);
-        addUIControls(gridPane);
+        addUIControls(gridPane,primaryStage);
         Scene scene = new Scene(vBox, 800, 640);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void addUIControls(GridPane gridPane) {
+    private void addUIControls(GridPane gridPane,Stage primaryStage) {
         Label headerLabel = new Label("Log In");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         gridPane.add(headerLabel, 0,0,2,1);
@@ -41,8 +44,25 @@ public class LoginForm extends Application {
         Label username_label = componentsBuilder.addLabel(gridPane,"Username ", 2, 0);
         TextField username = componentsBuilder.addTextField(gridPane, 40, 2, 1);
         Label password_label = componentsBuilder.addLabel(gridPane,"Password ", 3, 0);
-        TextField password = componentsBuilder.addTextField(gridPane, 40, 3, 1);
+        PasswordField password = componentsBuilder.addPasswordField(gridPane, 40, 3, 1);
         Button Login = componentsBuilder.build_center_button(gridPane, "Login", 40, 100, 0, 4, 2, 1);
+        Login.setOnAction(event -> {
+            try {
+                boolean can = controller.get_instance().login(username.getText(),password.getText());
+                if(can){
+                    System.out.println("go");
+                    StoreFunctionsForm gui=new StoreFunctionsForm();
+                    gui.start(primaryStage);
+                }else{
+                    username.setText("");
+                    password.setText("");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 

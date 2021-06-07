@@ -100,7 +100,7 @@ public class User_test {
         user_proxy.login("zayadi", "12345");
         assert (user_proxy.Promote("\"zozo@gmail.com\""));
     }
-    
+
 
 
 
