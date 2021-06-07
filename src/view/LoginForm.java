@@ -56,6 +56,7 @@ public class LoginForm extends Application {
                 }else{
                     username.setText("");
                     password.setText("");
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid user data");
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
