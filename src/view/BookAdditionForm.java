@@ -58,7 +58,7 @@ public class BookAdditionForm extends Application {
         TextField price = componentsBuilder.addTextField(gridPane, 40, 10, 1);
         Button addBook = componentsBuilder.build_center_button(gridPane, "Add", 40, 100, 0, 11, 2, 1);
         addBook.setOnAction(event -> {
-           
+           boolean can =  ( ISBN.getText() !="" && title.getText()!="" );
         });
 
     }
