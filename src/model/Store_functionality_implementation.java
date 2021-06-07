@@ -110,8 +110,17 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     @Override
-    public int get_available_book(String isbn) throws SQLException {
-        String sql = "select copies as cnt from book   where  ISBN  =" +isbn;
+    public int get_available_book_with_isbn(String isbn) throws SQLException {
+        return get_available_book("isbn", isbn);
+    }
+
+    @Override
+    public int get_available_book_with_title(String title) throws SQLException {
+        return get_available_book("title", title);
+    }
+
+    private int get_available_book(String field, String value) throws SQLException {
+        String sql = "select copies as cnt from book   where " + field + " = " + value;
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         rs.next();
@@ -157,6 +166,7 @@ public class Store_functionality_implementation implements Store_functionality {
         }
         return user;
     }
+
 
     int get_num_of_records(String table, String field, String value) throws SQLException {
         String sql = "select count(*) as cnt from " + table + "  where " + field + " = " + value;

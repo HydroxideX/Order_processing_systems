@@ -53,7 +53,7 @@ public class store_functionality_test {
         }
         try {
             java.sql.Date date1 = java.sql.Date.valueOf("2001-10-1");
-            OrderBuilder ob = new OrderBuilder().setISBN("ARR")
+            OrderBuilder ob =  OrderBuilder.get_instance().setISBN("ARR")
                     .setCopies(15).setTitle("annoyingorange")
                     .setDate_ordered(date1)
                     .setUser_name("yahia");
@@ -72,7 +72,7 @@ public class store_functionality_test {
         }
         try {
             java.sql.Date date1 = java.sql.Date.valueOf("2001-10-1");
-            OrderBuilder ob = new OrderBuilder().setISBN("ARR")
+            OrderBuilder ob =  OrderBuilder.get_instance().setISBN("ARR")
                     .setCopies(15).setTitle("annoyingorange")
                     .setDate_ordered(date1)
                     .setUser_name("yahia");

@@ -1,6 +1,6 @@
 package view;
 
-import controller.controller;
+import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import utils.regex_matcher;
 
 import java.sql.SQLException;
 
@@ -58,6 +59,14 @@ public class BookAdditionForm extends Application {
         TextField price = componentsBuilder.addTextField(gridPane, 40, 10, 1);
         Button addBook = componentsBuilder.build_center_button(gridPane, "Add", 40, 100, 0, 11, 2, 1);
         addBook.setOnAction(event -> {
+             regex_matcher  matcher = new regex_matcher();
+           boolean can =  ( matcher.check_varchar(ISBN.getText()) && matcher.check_varchar(title.getText())
+           && matcher.check_category(category.getText()) && matcher.check_float(price.getText())
+           && matcher.check_int(threshold.getText()) );
+           if(!can){
+               componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Book data");
+           }
+
         });
 
     }

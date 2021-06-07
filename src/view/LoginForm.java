@@ -1,6 +1,6 @@
 package view;
 
-import controller.controller;
+import controller.Controller;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,7 +44,7 @@ public class LoginForm extends Application {
         Button Login = componentsBuilder.build_center_button(gridPane, "Login", 40, 100, 0, 4, 2, 1);
         Login.setOnAction(event -> {
             try {
-                boolean can = controller.get_instance().login(username.getText(),password.getText());
+                boolean can = Controller.get_instance().login(username.getText(),password.getText());
                 if(can){
                     System.out.println("go");
                     StoreFunctionsForm gui=new StoreFunctionsForm();
