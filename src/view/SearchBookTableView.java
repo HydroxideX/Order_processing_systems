@@ -13,18 +13,22 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Schema.Book;
+import model.SearchBookQuery;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class SearchBookTableView extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
-    ArrayList <Book> books;
     public TableView<Object[]> table = new TableView<>();
     public static void main (String[] args) {
         launch(args);
     }
-
+    SearchBookQuery sq = null;
+    public SearchBookTableView (SearchBookQuery sq) {
+        this.sq = sq;
+    }
     @Override
     public void start(Stage stage) {
         table.setEditable(true);
@@ -47,7 +51,7 @@ public class SearchBookTableView extends Application {
         stage.show();
         try {
             table.getColumns().clear();
-            Object[][] x= convertBookArrayListTo2DArray(books);
+            Object[][] x= convertBookArrayListTo2DArray(sq.get_result_rows());
             UpdateTable(x, table);
         } catch (Exception ex) {
             System.out.println("Error displaying Table");
@@ -62,7 +66,8 @@ public class SearchBookTableView extends Application {
         {
             for(int j=0;j<x[i].length;j++)
             {
-                y[i][j]=x[i][j].toString();
+                if(x[i][j] == null) y[i][j] = " ";
+                else y[i][j]=x[i][j].toString();
             }
         }
         data.addAll(Arrays.asList(y));

@@ -10,6 +10,9 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import model.SearchBookQuery;
+import utils.String_utils;
+import utils.regex_matcher;
 
 import java.sql.SQLException;
 
@@ -26,13 +29,13 @@ public class SearchBookForm extends Application {
         Button logout = new Button("Logout");
         HBox hBox = componentsBuilder.buildTopHBox(back, logout, primaryStage);
         vBox.getChildren().addAll(hBox, gridPane);
-        addUIControls(gridPane);
+        addUIControls(gridPane, primaryStage);
         Scene scene = new Scene(vBox, 800, 640);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void addUIControls(GridPane gridPane) {
+    private void addUIControls(GridPane gridPane, Stage primaryStage) {
         Label headerLabel = new Label("Search Books");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         gridPane.add(headerLabel, 0, 0, 2, 1);
@@ -60,6 +63,58 @@ public class SearchBookForm extends Application {
         TextField price_upper = componentsBuilder.addTextField(gridPane, 40, 11, 1);
         Button search = componentsBuilder.build_center_button(gridPane, "Search", 40, 100, 0, 12, 2, 1);
 
+        search.setOnAction(event -> {
+            regex_matcher rm = new regex_matcher();
+            String_utils su =new String_utils();
+            SearchBookQuery sq = new SearchBookQuery();
+            if(rm.check_varchar(ISBN.getText())) {
+                sq.setISBN(ISBN.getText());
+            }
+            if(rm.check_varchar(title.getText())) {
+                sq.setTitle(title.getText());
+            }
+            if(rm.check_varchar(author.getText())) {
+                sq.setAuthor(author.getText());
+            }
+            if(rm.check_varchar(publisher.getText())) {
+                sq.setPublisher_name(publisher.getText());
+            }
+            if(rm.check_category(category.getText().toLowerCase())) {
+                sq.setCategory(category.getText().toLowerCase());
+            }
+            if(rm.check_int(year_lower.getText())) {
+                sq.setYear_lower(su.String_to_int(year_lower.getText()));
+            }
+            if(rm.check_int(year_upper.getText())) {
+                sq.setYear_upper(su.String_to_int(year_upper.getText()));
+            }
+            if(rm.check_int(copies.getText())) {
+                sq.setCopies_needed(su.String_to_int(copies.getText()));
+            }
+            if(rm.check_float(price_lower.getText())) {
+                sq.setSelling_price_lower(su.String_to_float(price_lower.getText()));
+            }
+            if(rm.check_float(price_upper.getText())) {
+                sq.setSelling_price_upper(su.String_to_float(price_upper.getText()));
+            }
+            Controller controller = null;
+            try {
+                controller = Controller.get_instance();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            try {
+                controller.search(sq);
+                SearchBookTableView gui = new SearchBookTableView(sq);
+                try {
+                    gui.start(primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                System.out.println("SQL database Error");
+            }
+        });
     }
 
     public static void main(String[] args) {

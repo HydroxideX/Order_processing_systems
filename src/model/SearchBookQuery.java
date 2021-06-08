@@ -10,11 +10,11 @@ public class SearchBookQuery {
     private String title =  null;
     private String publisher_name =  null;
     private String category = null;
-    private int year_lower = -1;
-    private int year_upper = -1;
-    private int copies_needed = -1;
-    private float selling_price_lower = -1;
-    private float selling_price_upper = -1;
+    private Integer year_lower = null;
+    private Integer year_upper = null;
+    private Integer copies_needed = null;
+    private Float selling_price_lower = null;
+    private Float selling_price_upper = null;
 
     private ArrayList <Book> result_rows = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class SearchBookQuery {
         return rm.check_varchar(ISBN) | rm.check_varchar(author) | rm.check_varchar(title) |
                 rm.check_varchar(publisher_name) | rm.check_category(category) | rm.check_valid_year(year_lower)
                 | rm.check_valid_year(year_upper) |
-                copies_needed != -1 | selling_price_lower != -1 | getSelling_price_upper() != -1;
+                copies_needed != null | selling_price_lower != null | getSelling_price_upper() != null;
     }
 
     public String build_where_statement(){
@@ -53,19 +53,19 @@ public class SearchBookQuery {
         if(rm.check_varchar(getPublisher_name())) {
             where_stmt += " PUBLISHER_NAME = '" + getPublisher_name() + "' AND";
         }
-        if(getYear_lower() != -1) {
+        if(getYear_lower() != null) {
             where_stmt += " PUBLICATION_YEAR >= '" + getYear_lower() + "' AND";
         }
-        if(getYear_upper() != -1) {
+        if(getYear_upper() !=  null) {
             where_stmt += " PUBLICATION_YEAR <= '" + getYear_upper() + "' AND";
         }
-        if(getCopies_needed() != -1) {
+        if(getCopies_needed() !=  null) {
             where_stmt += " copies >= '" + getCopies_needed() + "' AND";
         }
-        if(getSelling_price_upper() != -1) {
+        if(getSelling_price_upper() !=  null) {
             where_stmt += " selling_price <= '" + getSelling_price_upper()+ "' AND";
         }
-        if(getSelling_price_lower() != -1) {
+        if(getSelling_price_lower() != null) {
             where_stmt += " selling_price >= '" + getSelling_price_lower()+ "' AND";
         }
         where_stmt = where_stmt.substring(0,where_stmt.length()-3);
@@ -117,47 +117,47 @@ public class SearchBookQuery {
         return this;
     }
 
-    public int getYear_lower() {
+    public Integer getYear_lower() {
         return year_lower;
     }
 
-    public SearchBookQuery setYear_lower(int year_lower) {
+    public SearchBookQuery setYear_lower(Integer year_lower) {
         this.year_lower = year_lower;
         return this;
     }
 
-    public int getYear_upper() {
+    public Integer getYear_upper() {
         return year_upper;
     }
 
-    public SearchBookQuery setYear_upper(int year_upper) {
+    public SearchBookQuery setYear_upper(Integer year_upper) {
         this.year_upper = year_upper;
         return this;
     }
 
-    public int getCopies_needed() {
+    public Integer getCopies_needed() {
         return copies_needed;
     }
 
-    public SearchBookQuery setCopies_needed(int copies_needed) {
+    public SearchBookQuery setCopies_needed(Integer copies_needed) {
         this.copies_needed = copies_needed;
         return this;
     }
 
-    public float getSelling_price_lower() {
+    public Float getSelling_price_lower() {
         return selling_price_lower;
     }
 
-    public SearchBookQuery setSelling_price_lower(float selling_price_lower) {
+    public SearchBookQuery setSelling_price_lower(Float selling_price_lower) {
         this.selling_price_lower = selling_price_lower;
         return this;
     }
 
-    public float getSelling_price_upper() {
+    public Float getSelling_price_upper() {
         return selling_price_upper;
     }
 
-    public SearchBookQuery setSelling_price_upper(float selling_price_upper) {
+    public SearchBookQuery setSelling_price_upper(Float selling_price_upper) {
         this.selling_price_upper = selling_price_upper;
         return this;
     }
