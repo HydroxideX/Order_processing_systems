@@ -64,7 +64,7 @@ public class BookAdditionForm extends Application {
             regex_matcher matcher = new regex_matcher();
             String_utils string_utils = new String_utils();
             boolean can = (matcher.check_varchar(ISBN.getText()) && matcher.check_varchar(title.getText())
-                    && matcher.check_category(category.getText()) && matcher.check_float(price.getText())
+                    && matcher.check_category(category.getText().toLowerCase()) && matcher.check_float(price.getText())
                     && matcher.check_int(threshold.getText()));
             if (!can) {
                 componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Book data");
@@ -94,7 +94,7 @@ public class BookAdditionForm extends Application {
             BookBuilder builder = BookBuilder.getInstance();
             builder.setISBN(ISBN.getText());
             builder.setTitle(title.getText());
-            builder.setCategory(category.getText());
+            builder.setCategory(category.getText().toLowerCase());
             builder.setSelling_price(string_utils.String_to_float(price.getText()));
             builder.setThreshold(string_utils.String_to_int(threshold.getText()));
 

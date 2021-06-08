@@ -29,16 +29,27 @@ public class Store_functionality_implementation implements Store_functionality {
         }
     }
 
+    private String build_bracket(Book book) {
+        String bracket = "'" + book.getISBN() + "',";
+        if(book.getAuthor()!= null)  bracket += "'" + book.getAuthor() + "', " ;
+        else bracket += null + ", ";
+        bracket +=  "'" +book.getTitle() + "', ";
+        if(book.getPublisher_name()!= null)  bracket += "'" + book.getAuthor() + "', " ;
+        else bracket += null + ", ";
+        if(book.getYear()!= null)  bracket += "'" + book.getYear() + "', ";
+        else bracket += null + ", ";;
+        bracket += " '" + book.getCategory() + "', '" + book.getSelling_price()
+                + "', '" + book.getThreshold() + "', '" + book.getCopies_available() + "'";
+        return bracket;
+    }
+
     @Override
     public boolean add_new_book(Book book) throws SQLException {
         if (!book.is_valid()){
             System.out.println("not valid");
             return false;
         }
-        String sql = "INSERT INTO BOOK VALUES ('" + book.getISBN() + "', '" + book.getAuthor()
-                + "', '" + book.getTitle() + "', '" + book.getPublisher_name() + "', '"
-                + book.getYear() + "', '" + book.getCategory() + "', '" + book.getSelling_price()
-                + "', '" + book.getThreshold() + "', '" + book.getCopies_available() + "')";
+        String sql = "INSERT INTO BOOK VALUES (" + build_bracket(book) + ")";
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
@@ -55,7 +66,6 @@ public class Store_functionality_implementation implements Store_functionality {
         msg = build_message_update(statement.executeUpdate());
         conn.commit();
         statement.close();
-
         return msg;
     }
 

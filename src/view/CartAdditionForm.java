@@ -57,18 +57,22 @@ public class CartAdditionForm extends Application {
         HBox controlBar = new HBox();
         hBox.setSpacing(100);
         controlBar.setSpacing(5);
-        controlBar.getChildren().addAll(title, copies, controlBar, add_to_cart);
+        controlBar.getChildren().addAll(title, copies, add_to_cart, remove_from_cart);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(topBar, controlBar, table);
         ((Group)scene.getRoot()).getChildren().addAll(vbox);
         stage.setScene(scene);
         stage.show();
-        UpdateTable(add_to_cart);
-        UpdateTable(remove_from_cart);
-    }
-
-    private void UpdateTable(Button btn) {
-        btn.setOnAction(e->{
+        add_to_cart.setOnAction(e->{
+            try {
+                table.getColumns().clear();
+                Object[][] x= convertCartTOArray(cart);
+                SearchBookTableView.UpdateTable(x, table);
+            } catch (Exception ex) {
+                System.out.println("Error displaying Table");
+            }
+        });
+        remove_from_cart.setOnAction(e->{
             try {
                 table.getColumns().clear();
                 Object[][] x= convertCartTOArray(cart);

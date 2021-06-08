@@ -26,14 +26,15 @@ CREATE TABLE AUTHOR (
                         AUTHOR_ID VARCHAR(30) PRIMARY KEY UNIQUE
 );
 
+
 CREATE TABLE BOOK (
                       ISBN VARCHAR(30) NOT NULL UNIQUE,
                       AUTHOR VARCHAR(30),
                       TITLE VARCHAR(30) NOT NULL UNIQUE,
                       PUBLISHER_NAME VARCHAR(30),
                       PUBLICATION_YEAR YEAR,
-                      CATEGORY VARCHAR(30),
-                      SELLING_PRICE FLOAT,
+                      CATEGORY VARCHAR(30) NOT NULL,
+                      SELLING_PRICE FLOAT NOT NULL,
                       THRESHOLD INT NOT NULL,
                       COPIES INT NOT NULL,
                       PRIMARY KEY(ISBN, TITLE),
@@ -44,9 +45,9 @@ CREATE TABLE BOOK (
 CREATE TABLE BOOK_ORDER (
                             ISBN VARCHAR(30) NOT NULL,
                             TITLE VARCHAR(30) NOT NULL,
-                            DATE_ORDERED DATE,
-                            USER_NAME VARCHAR(30),
-                            COPIES INT,
+                            DATE_ORDERED DATE NOT NULL,
+                            USER_NAME VARCHAR(30) NOT NULL,
+                            COPIES INT NOT NULL,
                             FOREIGN KEY (ISBN) REFERENCES BOOK (ISBN) ON UPDATE CASCADE ON DELETE CASCADE,
                             FOREIGN KEY (TITLE) REFERENCES BOOK (TITLE) ON UPDATE CASCADE ON DELETE CASCADE,
                             FOREIGN KEY (USER_NAME) REFERENCES ONLINE_USER(USER_NAME) ON UPDATE CASCADE ON DELETE CASCADE
@@ -63,17 +64,14 @@ end if;
 end;
       $$
 
-create trigger Place_orders_books after update on book
-    for each row
-begin
+insert into ONLINE_USER (USER_NAME,PASSWORD,EMAIL_ADDRESS,MANAGER)values("default","----","----",true);
 
-    if new.copies<new.THRESHOLD then
-        if old.copies<new.THRESHOLD then
-			insert into BOOK_ORDER(ISBN,TITLE,DATE_ORDERED,COPIES) values(new.ISBN,new.title, CURDATE(),old.copies  - new.copies);
-    else
-			insert into BOOK_ORDER(ISBN,TITLE,DATE_ORDERED,COPIES) values(new.ISBN,new.title, CURDATE(),new.THRESHOLD  - new.copies);
-end if;
-end if;
+create trigger Place_orders_books after update on book 
+for each row
+begin
+    if old.copies>new.THRESHOLD and new.copies<new.THRESHOLD then
+            insert into BOOK_ORDER(ISBN,TITLE,DATE_ORDERED,COPIES,USER_NAME) values(new.ISBN,new.title, CURDATE(),new.THRESHOLD*2,"default");
+    end if;
 end;
 
 create trigger Confirm_orders before  delete on BOOK_ORDER
@@ -83,7 +81,6 @@ begin
 end;
 
 insert into AUTHOR values("hamza" , 10);
-insert into book (ISBN ,TITLE,COPIES,THRESHOLD) values(1 , "how to kill myslif?" ,15,10);
 update book set COPIES = 7 where ISBN = 1 ;
 update book set COPIES = 5 where ISBN = 1 ;
 insert into publisher values('yahia', 'yahia', 'yahia');
