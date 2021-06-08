@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import utils.regex_matcher;
 
 public class CheckoutForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
@@ -39,6 +40,17 @@ public class CheckoutForm extends Application {
         Label expiry_date_label = componentsBuilder.addLabel(gridPane, "Expiry Date", 3, 0);
         TextField expiry_date= componentsBuilder.addTextField(gridPane, 40, 3, 1);
         Button checkout = componentsBuilder.build_center_button(gridPane, "Checkout Order", 40, 100, 0,4,2, 1);
+        checkout.setOnAction(event -> {
+            regex_matcher rm = new regex_matcher();
+            if (!rm.check_credit_card(credit_card.getText())) {
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Credit Card Value!");
+            }
+            else if(! rm.check_expiry_date(expiry_date.getText())) {
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Expiry Date Value!");
+            } else {
+
+            }
+        });
     }
 
     public static void main(String[] args) {
