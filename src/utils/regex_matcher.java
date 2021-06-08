@@ -42,11 +42,21 @@ public class regex_matcher {
     }
 
     public boolean check_float(String s) {
-        String float_regex = "^([+]?\\d+\\.?\\d*)$";
+        String float_regex = "^([+]?\\d+(\\.\\d+)?)$";
         return match_string(s, float_regex);
     }
 
     public boolean check_valid_year(int year) {
         return year>0 && year <= Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public boolean check_credit_card(String s) {
+        String credit_card_regex = "^\\d{16}$";
+        return match_string(s, credit_card_regex);
+    }
+
+    public boolean check_expiry_date(String s){
+        String expiry_date_regex = "^((0[0-9])|(1[0-2]))\\/\\d{2}$";
+        return match_string(s, expiry_date_regex);
     }
 }

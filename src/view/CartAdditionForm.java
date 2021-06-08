@@ -1,11 +1,6 @@
 package view;
-
-import com.mysql.cj.protocol.Resultset;
 import controller.Controller;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,13 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Schema.Book_Order;
-
-import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class CartAdditionForm extends Application {
@@ -49,8 +42,8 @@ public class CartAdditionForm extends Application {
         stage.setWidth(1200);
         stage.setHeight(700);
         stage.setResizable(false);
-        Button search =new Button("Add to Cart");
-        Button add_to_cart =new Button("Remove From Cart");
+        Button add_to_cart =new Button("Add to Cart");
+        Button remove_from_cart =new Button("Remove From Cart");
         TextField title = new TextField();
         title.setMinWidth(480);
         TextField copies = new TextField();
@@ -61,60 +54,47 @@ public class CartAdditionForm extends Application {
         Button back = new Button();
         Button logout = new Button("Logout");
         HBox topBar = componentsBuilder.buildTopHBox(back, logout, stage);
-        HBox searchBar = new HBox();
+        HBox controlBar = new HBox();
         hBox.setSpacing(100);
-        searchBar.setSpacing(5);
-        searchBar.getChildren().addAll(title, copies, search, add_to_cart);
+        controlBar.setSpacing(5);
+        controlBar.getChildren().addAll(title, copies, controlBar, add_to_cart);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(topBar, searchBar, table);
+        vbox.getChildren().addAll(topBar, controlBar, table);
         ((Group)scene.getRoot()).getChildren().addAll(vbox);
         stage.setScene(scene);
         stage.show();
-        /*
-        add_to_cart.setOnAction(e->{
-            try {
-                //method to transfer result set to 2d array of Objects
-                table.getColumns().clear();
-                Resultset temp =(Resultset)object;
-                Object[][] x= convertResultSetTOArray(temp);
-                ObservableList<Object[]> data = FXCollections.observableArrayList();
-                Object[][] y = new Object[x.length][x[0].length];
-                for(int i=0;i<x.length;i++)
-                {
-                    for(int j=0;j<x[i].length;j++)
-                    {
-                        y[i][j]=x[i][j].toString();
-                    }
-                }
-                data.addAll(Arrays.asList(y));
-                data.remove(0);
-                for (int i = 0; i < x[0].length; i++)
-                {
-                    TableColumn tc = new TableColumn(x[0][i].toString());
-                    tc.setMinWidth(150);
-                    final int colNo = i;
-                    tc.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Object[], Object>, SimpleStringProperty>() {
-                        @Override
-                        public SimpleStringProperty call(TableColumn.CellDataFeatures<Object[], Object> p) {
-                            return new SimpleStringProperty((String) p.getValue()[colNo]);
-                        }
-                    });
-                    table.getColumns().add(tc);
+        UpdateTable(add_to_cart);
+        UpdateTable(remove_from_cart);
+    }
 
-                }
-                table.setItems(data);
-            } catch (Exception e) {
+    private void UpdateTable(Button btn) {
+        btn.setOnAction(e->{
+            try {
+                table.getColumns().clear();
+                Object[][] x= convertCartTOArray(cart);
+                SearchBookTableView.UpdateTable(x, table);
+            } catch (Exception ex) {
                 System.out.println("Error displaying Table");
             }
         });
-        */
-
     }
 
-
+    private Object [][] convertCartTOArray(ArrayList<Book_Order> cart) {
+        String[][] table = new String[cart.size()+1][5];
+        table[0][0] = "ISBN";
+        table[0][1] = "Title";
+        table[0][2] = "User";
+        table[0][3] = "Date";
+        table[0][4] = "Quantity";
+        for(int i = 0; i < cart.size(); i++){
+            table[i+1][0] = cart.get(i).getISBN();
+            table[i+1][1] = cart.get(i).getTitle();
+            table[i+1][2] = cart.get(i).getUser_name();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            String strDate = dateFormat.format(cart.get(i).getDate_ordered());
+            table[i+1][3] = strDate;
+            table[i+1][4] = String.valueOf(cart.get(i).getCopies());
+        }
+        return table;
+    }
 }
-
-
-/*
-
- */
