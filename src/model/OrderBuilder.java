@@ -9,20 +9,8 @@ public class OrderBuilder {
     private String ISBN = "";
     private String title = "";
     private String user_name = "";
-    private Integer copies;
-    private java.sql.Date date_ordered;
-    private static OrderBuilder orderBuilder;
-
-    private OrderBuilder() {
-
-    }
-
-    public static OrderBuilder get_instance() {
-        if (orderBuilder == null) {
-            orderBuilder = new OrderBuilder();
-        }
-        return orderBuilder;
-    }
+    private Integer copies = null;
+    private java.sql.Date date_ordered = null;
 
     public OrderBuilder setISBN(String ISBN) {
         this.ISBN = ISBN;
@@ -50,8 +38,6 @@ public class OrderBuilder {
     }
 
     public Book_Order build() {
-        java.util.Date utilDate = new java.util.Date();
-        this.date_ordered = new java.sql.Date(utilDate.getTime());
         return new Book_Order(ISBN, title, user_name, copies, date_ordered);
     }
 }

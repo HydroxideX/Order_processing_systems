@@ -70,7 +70,7 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public String modify_existing_book(String title, String ISBN, int quantity_change) throws SQLException {
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle(title);
         builder.setISBN(ISBN);
         return modify_existing_book(builder.build(), quantity_change);
@@ -103,15 +103,31 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     @Override
+    public void get_manager_orders(BookOrderQuery oq) throws SQLException {
+        String sql = "SELECT * FROM BOOK_ORDER WHERE COPIES > 0";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            OrderBuilder ob = new OrderBuilder();
+            java.sql.Date date = rs.getDate("DATE_ORDERED");
+            ob.setCopies(rs.getInt("copies")).setISBN(rs.getString("ISBN"))
+                    .setTitle(rs.getString("title"))
+                    .setDate_ordered(date).setUser_name(rs.getString("user_name"));
+            oq.add_to_result(ob.build());
+        }
+        conn.commit();
+        statement.close();
+    }
+
+    @Override
     public void search_for_book(SearchBookQuery sq) throws SQLException {
-        System.out.println("Connected to the database");
         String sql = "SELECT * FROM BOOK";
         String where_stmt = sq.build_where_statement();
         sql += where_stmt + ";";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
-        BookBuilder bb = BookBuilder.getInstance();
         while (rs.next()) {
+            BookBuilder bb =new BookBuilder();
             bb.setAuthor(rs.getString("author")).setCategory(rs.getString("category"))
                     .setCopies_available(rs.getInt("copies")).setISBN(rs.getString("ISBN"))
                     .setPublisher_name(rs.getString("publisher_name"))

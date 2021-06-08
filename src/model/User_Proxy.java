@@ -41,7 +41,7 @@ public class User_Proxy {
     }
 
     public boolean add_book_to_cart_new_order(Book book, int copies) throws SQLException {
-        OrderBuilder builder = OrderBuilder.get_instance();
+        OrderBuilder builder = new OrderBuilder();
         builder.setCopies(copies);
         builder.setISBN(book.getISBN());
         builder.setTitle(book.getTitle());

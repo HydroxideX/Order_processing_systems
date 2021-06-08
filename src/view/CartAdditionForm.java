@@ -14,6 +14,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static view.ConfirmOrderForm.getObjectsTableFromOrders;
+
 
 public class CartAdditionForm extends Application {
     private Controller controller = null;
@@ -84,21 +86,6 @@ public class CartAdditionForm extends Application {
     }
 
     private Object [][] convertCartTOArray(ArrayList<Book_Order> cart) {
-        String[][] table = new String[cart.size()+1][5];
-        table[0][0] = "ISBN";
-        table[0][1] = "Title";
-        table[0][2] = "User";
-        table[0][3] = "Date";
-        table[0][4] = "Quantity";
-        for(int i = 0; i < cart.size(); i++){
-            table[i+1][0] = cart.get(i).getISBN();
-            table[i+1][1] = cart.get(i).getTitle();
-            table[i+1][2] = cart.get(i).getUser_name();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-            String strDate = dateFormat.format(cart.get(i).getDate_ordered());
-            table[i+1][3] = strDate;
-            table[i+1][4] = String.valueOf(cart.get(i).getCopies());
-        }
-        return table;
+        return getObjectsTableFromOrders(cart, 0);
     }
 }

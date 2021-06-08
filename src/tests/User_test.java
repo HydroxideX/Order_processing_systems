@@ -19,7 +19,7 @@ public class User_test {
     public void test_add_book_to_cart() throws SQLException {
         Controller controller = Controller.get_instance();
         controller.login("zayadi", "12345");
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle("how to kill myself?");
         builder.setISBN("1");
         assert (controller.add_book_to_cart(builder.build(), 5));
@@ -32,7 +32,7 @@ public class User_test {
     public void test_add_book_to_cart_overflow() throws SQLException {
         Controller controller = Controller.get_instance();
         controller.login("zayadi", "12345");
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle("how to kill myself?");
         builder.setISBN("1");
         assert (!controller.add_book_to_cart(builder.build(), 100));
@@ -43,7 +43,7 @@ public class User_test {
     public void test_add_book_to_cart_overflow_on_steps() throws SQLException {
         Controller controller = Controller.get_instance();
         controller.login("zayadi", "12345");
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle("how to kill myself?");
         builder.setISBN("1");
         assert (controller.add_book_to_cart(builder.build(), 5));
@@ -56,7 +56,7 @@ public class User_test {
     public void test_remove_book_not_all() throws SQLException {
         Controller controller = Controller.get_instance();
         controller.login("zayadi", "12345");
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle("how to kill myself?");
         builder.setISBN("1");
         assert (controller.add_book_to_cart(builder.build(), 4));
@@ -70,7 +70,7 @@ public class User_test {
     public void test_remove_book_all() throws SQLException {
         Controller controller = Controller.get_instance();
         controller.login("zayadi", "12345");
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle("how to kill myself?");
         builder.setISBN("1");
         assert (controller.add_book_to_cart(builder.build(), 4));
@@ -83,7 +83,7 @@ public class User_test {
     public void test_checkout() throws SQLException {
         Controller controller = Controller.get_instance();
         controller.login("zayadi", "12345");
-        BookBuilder builder = BookBuilder.getInstance();
+        BookBuilder builder = new BookBuilder();
         builder.setTitle("how to kill myself?");
         builder.setISBN("1");
         assert (controller.add_book_to_cart(builder.build(), 3));

@@ -13,16 +13,6 @@ public class BookBuilder {
     private Integer copies_available = null;
     private Float selling_price = null;
 
-    private static final BookBuilder instance = new BookBuilder();
-
-    private BookBuilder() {
-
-    }
-
-    public static BookBuilder getInstance() {
-        return instance;
-    }
-
     public BookBuilder setISBN(String ISBN) {
         this.ISBN = ISBN;
         return this;

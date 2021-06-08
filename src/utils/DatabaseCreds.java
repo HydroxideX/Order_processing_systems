@@ -18,7 +18,6 @@ public class DatabaseCreds {
     public String getPassword() {
         return password;
     }
-
     public void read_credentials(){
         try {
             File myObj = new File("credentials");

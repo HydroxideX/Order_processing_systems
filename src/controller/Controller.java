@@ -1,13 +1,10 @@
 package controller;
 
 import javafx.util.Pair;
-import model.CheckOutResult;
+import model.*;
 import model.Schema.Book;
 import model.Schema.Book_Order;
 import model.Schema.User;
-import model.SearchBookQuery;
-import model.Store_functionality_implementation;
-import model.User_Proxy;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +30,10 @@ public class Controller {
 
     public User_Proxy get_userProxy() {
         return proxy;
+    }
+
+    public void get_manager_orders(BookOrderQuery oq) throws SQLException {
+        store.get_manager_orders(oq);
     }
 
     public void search(SearchBookQuery sq) throws SQLException {

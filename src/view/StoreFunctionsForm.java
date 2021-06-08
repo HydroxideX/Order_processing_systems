@@ -42,16 +42,18 @@ public class StoreFunctionsForm extends Application  {
         Button searchBook = componentsBuilder.buildButton(gridPane, "Search for Book", 2, 1, 40, 200, true);
         Button shoppingCart = componentsBuilder.buildButton(gridPane, "Shopping Cart", 3, 1, 40, 200, true);
         Button checkout = componentsBuilder.buildButton(gridPane, "Checkout", 4, 1, 40, 200, true);
+        Button confirmOrder = componentsBuilder.buildButton(gridPane, "Confirm Order", 5, 1, 40, 200, true);
         Button addBook = componentsBuilder.buildButton(gridPane, "Add Book to Store", 2, 2, 40, 200, true);
-        Button placeConfirmOrder = componentsBuilder.buildButton(gridPane, "Place/Confirm Order", 3, 2, 40, 200, true);
+        Button placeOrder = componentsBuilder.buildButton(gridPane, "Place Order", 3, 2, 40, 200, true);
         Button promoteUser = componentsBuilder.buildButton(gridPane, "Promote User", 4, 2, 40, 200, true);
         Button generateReports = componentsBuilder.buildButton(gridPane, "Reports", 5, 2, 40, 200, true);
         boolean is_manager = Controller.get_instance().get_userProxy().is_manager();
         if(!is_manager){
             addBook.setDisable(true);
-            placeConfirmOrder.setDisable(true);
+            placeOrder.setDisable(true);
             promoteUser.setDisable(true);
             generateReports.setDisable(true);
+            confirmOrder.setDisable(true);
         }
 
 
@@ -90,8 +92,17 @@ public class StoreFunctionsForm extends Application  {
             }
         });
 
-        placeConfirmOrder.setOnAction(event -> {
+        placeOrder.setOnAction(event -> {
             OrderPlaceConfirmForm gui=new OrderPlaceConfirmForm();
+            try {
+                gui.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        confirmOrder.setOnAction(event -> {
+            ConfirmOrderForm gui=new ConfirmOrderForm();
             try {
                 gui.start(primaryStage);
             } catch (Exception e) {

@@ -15,7 +15,7 @@ public class store_functionality_test {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        BookBuilder bb = BookBuilder.getInstance().setISBN("ARgR")
+        BookBuilder bb = new BookBuilder().setISBN("ARgR")
                 .setAuthor("hag").setCategory("science")
                 .setCopies_available(15).setSelling_price((float)1656.2)
                 .setPublisher_name("yahia").setThreshold(10).setTitle("annoyingorange2").setYear(1996);
@@ -33,7 +33,7 @@ public class store_functionality_test {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        BookBuilder bb = BookBuilder.getInstance().setISBN("ARR")
+        BookBuilder bb = new BookBuilder().setISBN("ARR")
                 .setAuthor("ha").setCategory("science")
                 .setCopies_available(15).setSelling_price((float)1656.2)
                 .setPublisher_name("yahia").setThreshold(15).setTitle("annoyingorange").setYear(1996);
@@ -53,7 +53,7 @@ public class store_functionality_test {
         }
         try {
             java.sql.Date date1 = java.sql.Date.valueOf("2001-10-1");
-            OrderBuilder ob =  OrderBuilder.get_instance().setISBN("ARR")
+            OrderBuilder ob =  new OrderBuilder().setISBN("ARR")
                     .setCopies(15).setTitle("annoyingorange")
                     .setDate_ordered(date1)
                     .setUser_name("yahia");
@@ -72,7 +72,7 @@ public class store_functionality_test {
         }
         try {
             java.sql.Date date1 = java.sql.Date.valueOf("2001-10-1");
-            OrderBuilder ob =  OrderBuilder.get_instance().setISBN("ARR")
+            OrderBuilder ob = new OrderBuilder().setISBN("ARR")
                     .setCopies(15).setTitle("annoyingorange")
                     .setDate_ordered(date1)
                     .setUser_name("yahia");

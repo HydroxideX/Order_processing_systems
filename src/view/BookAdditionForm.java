@@ -91,7 +91,7 @@ public class BookAdditionForm extends Application {
                     return;
                 }
             }
-            BookBuilder builder = BookBuilder.getInstance();
+            BookBuilder builder = new BookBuilder();
             builder.setISBN(ISBN.getText());
             builder.setTitle(title.getText());
             builder.setCategory(category.getText().toLowerCase());
