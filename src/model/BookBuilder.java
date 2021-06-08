@@ -3,20 +3,22 @@ package model;
 import model.Schema.Book;
 
 public class BookBuilder {
-    private String ISBN =  null;
-    private String author =  null;
-    private String title =  null;
-    private String publisher_name =  null;
+    private String ISBN = null;
+    private String author = null;
+    private String title = null;
+    private String publisher_name = null;
     private String category = null;
-    private int year = -1;
-    private int threshold = -1;
-    private int copies_available = -1;
-    private float selling_price = -1;
+    private Integer year = null;
+    private Integer threshold = null;
+    private Integer copies_available = null;
+    private Float selling_price = null;
 
     private static final BookBuilder instance = new BookBuilder();
+
     private BookBuilder() {
 
     }
+
     public static BookBuilder getInstance() {
         return instance;
     }
@@ -46,27 +48,27 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder setYear(int year) {
+    public BookBuilder setYear(Integer year) {
         this.year = year;
         return this;
     }
 
-    public BookBuilder setThreshold(int threshold) {
+    public BookBuilder setThreshold(Integer threshold) {
         this.threshold = threshold;
         return this;
     }
 
-    public BookBuilder setCopies_available(int copies_available) {
+    public BookBuilder setCopies_available(Integer copies_available) {
         this.copies_available = copies_available;
         return this;
     }
 
-    public BookBuilder setSelling_price(float selling_price) {
+    public BookBuilder setSelling_price(Float selling_price) {
         this.selling_price = selling_price;
         return this;
     }
 
     public Book build() {
-        return new Book(ISBN, author, title,publisher_name,category, year, threshold, copies_available, selling_price);
+        return new Book(ISBN, author, title, publisher_name, category, year, threshold, copies_available, selling_price);
     }
 }

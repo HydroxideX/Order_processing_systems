@@ -1,19 +1,21 @@
 package model.Schema;
+
 import utils.regex_matcher;
+
 public class Book {
-    private String ISBN =  null;
-    private String author =  null;
-    private String title =  null;
-    private String publisher_name =  null;
+    private String ISBN = null;
+    private String author = null;
+    private String title = null;
+    private String publisher_name = null;
     private String category = null;
-    private int year = -1;
-    private int threshold = -1;
-    private int copies_available = -1;
-    private float selling_price = -1;
+    private Integer year = null;
+    private Integer threshold = null;
+    private Integer copies_available = null;
+    private Float selling_price = null;
 
     public Book(String ISBN, String author, String title, String publisher_name,
-                String category, int year, int threshold, int copies_available,
-                float selling_price) {
+                String category, Integer year, Integer threshold, Integer copies_available,
+                Float selling_price) {
         this.ISBN = ISBN;
         this.author = author;
         this.title = title;
@@ -27,9 +29,9 @@ public class Book {
 
     public boolean is_valid() {
         regex_matcher rm = new regex_matcher();
-        return rm.check_varchar(ISBN) & rm.check_varchar(author) & rm.check_varchar(title) &
-                rm.check_varchar(publisher_name) & rm.check_category(category) & rm.check_valid_year(year) &
-                threshold != -1 & copies_available != -1 & selling_price != -1;
+        return rm.check_varchar(ISBN) && rm.check_varchar(title)
+                && rm.check_category(category) &&
+                threshold != null && selling_price != null;
     }
 
     public String getISBN() {
@@ -72,7 +74,7 @@ public class Book {
         this.category = category;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -80,7 +82,7 @@ public class Book {
         this.year = year;
     }
 
-    public int getThreshold() {
+    public Integer getThreshold() {
         return threshold;
     }
 
@@ -88,7 +90,7 @@ public class Book {
         this.threshold = threshold;
     }
 
-    public int getCopies_available() {
+    public Integer getCopies_available() {
         return copies_available;
     }
 
@@ -96,7 +98,7 @@ public class Book {
         this.copies_available = copies_available;
     }
 
-    public float getSelling_price() {
+    public Float getSelling_price() {
         return selling_price;
     }
 

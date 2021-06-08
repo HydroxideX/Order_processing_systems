@@ -6,14 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class regex_matcher {
-    String [] category_values = {"science", "art", "religion" ,"history", "geography"};
+    String[] category_values = {"science", "art", "religion", "history", "geography"};
 
     public boolean check_varchar(String s) {
         return s != null && s.length() > 0 && s.length() <= 30;
     }
 
     public boolean check_category(String category) {
-        if(category == null) return false;
+        if (category == null) return false;
         for (String category_value : category_values) {
             if (category_value.compareTo(category) == 0) return true;
         }
@@ -46,7 +46,11 @@ public class regex_matcher {
         return match_string(s, float_regex);
     }
 
+    public boolean is_empty(String str) {
+        return str.matches(" *");
+    }
+
     public boolean check_valid_year(int year) {
-        return year>0 && year <= Calendar.getInstance().get(Calendar.YEAR);
+        return year > 0 && year <= Calendar.getInstance().get(Calendar.YEAR);
     }
 }

@@ -30,17 +30,21 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     @Override
-    public String add_new_book(Book book) throws SQLException {
-        if (!book.is_valid()) return "ERROR: values missing for add new book";
+    public boolean add_new_book(Book book) throws SQLException {
+        if (!book.is_valid()){
+            System.out.println("not valid");
+            return false;
+        }
         String sql = "INSERT INTO BOOK VALUES ('" + book.getISBN() + "', '" + book.getAuthor()
                 + "', '" + book.getTitle() + "', '" + book.getPublisher_name() + "', '"
                 + book.getYear() + "', '" + book.getCategory() + "', '" + book.getSelling_price()
                 + "', '" + book.getThreshold() + "', '" + book.getCopies_available() + "')";
+        System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
         conn.commit();
         statement.close();
-        return msg;
+        return true;
     }
 
     @Override
@@ -215,5 +219,31 @@ public class Store_functionality_implementation implements Store_functionality {
             result.add(p);
         }
         return result;
+    }
+
+    public boolean has_publisher_name(String name) throws SQLException {
+        String sql = "select count(*) as cnt from PUBLISHER where name = " + name;
+        System.out.println(sql);
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
+        ArrayList<Pair<String, Integer>> result = new ArrayList<>();
+        rs.next();
+        return rs.getInt("cnt") != 0;
+    }
+
+    public boolean has_book_with_title(String title) throws SQLException {
+        return get_count("book","title",title)!=0;
+    }
+    public boolean has_book_with_ISBN(String ISBN) throws SQLException {
+        return get_count("book","ISBN",ISBN)!=0;
+    }
+
+    private int get_count(String table, String field, String value) throws SQLException {
+        String sql = "select count(*) as cnt from " + table + "  where " + field + "  =  " + value;
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
+        ArrayList<Pair<String, Integer>> result = new ArrayList<>();
+        rs.next();
+        return rs.getInt("cnt");
     }
 }

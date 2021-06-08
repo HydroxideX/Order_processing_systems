@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public interface Store_functionality {
     public void init() throws SQLException;
-    public String add_new_book(Book book) throws SQLException;
+    public boolean add_new_book(Book book) throws SQLException;
     public String modify_existing_book(Book book, int quantity) throws SQLException;
     public String place_order(Book_Order order) throws SQLException;
     public String confirm_order(Book_Order order) throws SQLException;
@@ -15,8 +15,6 @@ public interface Store_functionality {
     public User get_user(String user_name , String password) throws SQLException;
 
     int get_available_book_with_isbn(String isbn) throws SQLException;
-
     int get_available_book_with_title(String title) throws SQLException;
-
     public boolean set_manager(String email) throws SQLException;
 }

@@ -118,8 +118,60 @@ public class Controller {
         return store.get_top_books(10);
     }
 
-
     public void remove_book(String ISBN, int copies) {
+
         proxy.remove_book(ISBN, copies);
+    }
+
+    public int get_available_book_with_title(String title) throws SQLException {
+        title = "\"" + title + "\"";
+        return store.get_available_book_with_title(title);
+    }
+
+    public int get_available_book_with_ISBN(String ISBN) throws SQLException {
+        return store.get_available_book_with_isbn(ISBN);
+    }
+
+    public boolean add_new_book(Book book) {
+        try {
+            return store.add_new_book(book);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        assert false;
+        return false;
+    }
+
+    public boolean has_publisher_name(String name) {
+        try {
+            return store.has_publisher_name(name);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+        // to stop the execution of addition
+    }
+
+    public boolean has_book_with_title(String title) {
+        title = "\"" + title + "\"";
+        try {
+            return store.has_book_with_title(title);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+        // to stop the execution of addition
+
+    }
+
+    public boolean has_book_with_ISBN(String ISBN) {
+        ISBN = "\"" + ISBN + "\"";
+        try {
+            return store.has_book_with_ISBN(ISBN);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+        // to stop the execution of addition
     }
 }

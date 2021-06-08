@@ -9,7 +9,7 @@ public class OrderBuilder {
     private String ISBN = "";
     private String title = "";
     private String user_name = "";
-    private int copies;
+    private Integer copies;
     private java.sql.Date date_ordered;
     private static OrderBuilder orderBuilder;
 
@@ -39,7 +39,7 @@ public class OrderBuilder {
         return this;
     }
 
-    public OrderBuilder setCopies(int copies) {
+    public OrderBuilder setCopies(Integer copies) {
         this.copies = copies;
         return this;
     }

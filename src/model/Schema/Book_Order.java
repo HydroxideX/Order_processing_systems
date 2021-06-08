@@ -10,10 +10,10 @@ public class Book_Order {
     private String ISBN = "";
     private String title = "";
     private String user_name = "";
-    private int copies;
+    private Integer copies;
     private java.sql.Date date_ordered;
 
-    public Book_Order(String ISBN, String title, String user_name, int copies, java.sql.Date date_ordered) {
+    public Book_Order(String ISBN, String title, String user_name, Integer copies, java.sql.Date date_ordered) {
         this.ISBN = ISBN;
         this.title = title;
         this.user_name = user_name;
@@ -56,11 +56,11 @@ public class Book_Order {
         this.user_name = user_name;
     }
 
-    public int getCopies() {
+    public Integer getCopies() {
         return copies;
     }
 
-    public void setCopies(int copies) {
+    public void setCopies(Integer copies) {
         this.copies = copies;
     }
 

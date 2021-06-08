@@ -10,6 +10,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import model.BookBuilder;
+import utils.String_utils;
 import utils.regex_matcher;
 
 import java.sql.SQLException;
@@ -59,13 +61,61 @@ public class BookAdditionForm extends Application {
         TextField price = componentsBuilder.addTextField(gridPane, 40, 10, 1);
         Button addBook = componentsBuilder.build_center_button(gridPane, "Add", 40, 100, 0, 11, 2, 1);
         addBook.setOnAction(event -> {
-             regex_matcher  matcher = new regex_matcher();
-           boolean can =  ( matcher.check_varchar(ISBN.getText()) && matcher.check_varchar(title.getText())
-           && matcher.check_category(category.getText()) && matcher.check_float(price.getText())
-           && matcher.check_int(threshold.getText()) );
-           if(!can){
-               componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Book data");
-           }
+            regex_matcher matcher = new regex_matcher();
+            String_utils string_utils = new String_utils();
+            boolean can = (matcher.check_varchar(ISBN.getText()) && matcher.check_varchar(title.getText())
+                    && matcher.check_category(category.getText()) && matcher.check_float(price.getText())
+                    && matcher.check_int(threshold.getText()));
+            if (!can) {
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid Book data");
+                return;
+            }
+            Controller controller = null;
+            try {
+                controller = Controller.get_instance();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            assert controller != null;
+            if (controller.has_book_with_title(title.getText())) {
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "this title already exist");
+                return;
+            }
+            if (controller.has_book_with_ISBN(ISBN.getText())) {
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "this ISBN already exist");
+                return;
+            }
+            if (!matcher.is_empty(publisher.getText())) {
+                if (!controller.has_publisher_name(publisher.getText())) {
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "there is no puplisher name with " + publisher.getText());
+                    return;
+                }
+            }
+            BookBuilder builder = BookBuilder.getInstance();
+            builder.setISBN(ISBN.getText());
+            builder.setTitle(title.getText());
+            builder.setCategory(category.getText());
+            builder.setSelling_price(string_utils.String_to_float(price.getText()));
+            builder.setThreshold(string_utils.String_to_int(threshold.getText()));
+
+            if (matcher.check_varchar(author.getText())) {
+                builder.setAuthor(author.getText());
+            }
+            if (matcher.check_int(copies.getText())) {
+                builder.setCopies_available(string_utils.String_to_int(copies.getText()));
+            }
+            if (matcher.check_year(year.getText())) {
+                builder.setYear(string_utils.String_to_int((year.getText())));
+            }
+            if (matcher.check_varchar(publisher.getText())) {
+                builder.setPublisher_name(publisher.getText());
+            }
+            boolean add = controller.add_new_book(builder.build());
+            if (add) {
+                componentsBuilder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "success!", "book id added successfully");
+            } else {
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "unknown error in database");
+            }
 
         });
 

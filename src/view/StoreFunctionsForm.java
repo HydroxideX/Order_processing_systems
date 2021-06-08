@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -10,6 +11,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import model.SearchBookQuery;
+
+import java.sql.SQLException;
 
 public class StoreFunctionsForm extends Application  {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
@@ -30,7 +33,7 @@ public class StoreFunctionsForm extends Application  {
     }
 
 
-    private void addUIControls(GridPane gridPane, Stage primaryStage) {
+    private void addUIControls(GridPane gridPane, Stage primaryStage) throws SQLException {
         Label headerLabel = new Label("Store");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         gridPane.add(headerLabel, 1,0,2,1);
@@ -43,7 +46,7 @@ public class StoreFunctionsForm extends Application  {
         Button placeConfirmOrder = componentsBuilder.buildButton(gridPane, "Place/Confirm Order", 3, 2, 40, 200, true);
         Button promoteUser = componentsBuilder.buildButton(gridPane, "Promote User", 4, 2, 40, 200, true);
         Button generateReports = componentsBuilder.buildButton(gridPane, "Reports", 5, 2, 40, 200, true);
-        boolean is_manager = true;
+        boolean is_manager = Controller.get_instance().get_userProxy().is_manager();
         if(!is_manager){
             addBook.setDisable(true);
             placeConfirmOrder.setDisable(true);

@@ -4,7 +4,7 @@ CREATE TABLE BOOK (
                       AUTHOR VARCHAR(30),
                       TITLE VARCHAR(30) NOT NULL UNIQUE,
                       PUBLISHER_NAME VARCHAR(30),
-                      PUBLICATION_YEAR YEAR,
+                      PUBLICATION_YEAR YEAR ,
                       CATEGORY VARCHAR(30) NOT NULL ,
                       SELLING_PRICE FLOAT NOT NULL,
                       THRESHOLD INT NOT null,

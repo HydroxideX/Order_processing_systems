@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,6 +13,7 @@ import javafx.stage.Window;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 
 public class ComponentsBuilder {
     public Button buildButton(GridPane gridPane, String text, int row, int col, int height, int width, boolean def){
@@ -64,6 +66,11 @@ public class ComponentsBuilder {
         logout.setFocusTraversable(false);
         hBox.getChildren().addAll(logout);
         logout.setOnAction(event -> {
+            try {
+                Controller.get_instance().get_userProxy().logout();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             LoginForm gui=new LoginForm();
             try {
                 gui.start(primaryStage);
