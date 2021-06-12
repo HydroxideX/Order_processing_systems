@@ -135,6 +135,7 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public int get_available_book_with_isbn(String isbn) throws SQLException {
+        isbn= "\"" + isbn + "\"";
         return get_available_book("isbn", isbn);
     }
 
@@ -147,8 +148,10 @@ public class Store_functionality_implementation implements Store_functionality {
         String sql = "select copies as cnt from book   where " + field + " = " + value;
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
-        rs.next();
-        return rs.getInt("cnt");
+        if(rs.next()){
+            return rs.getInt("cnt");
+        }
+        return 0;
     }
 
     @Override
@@ -271,5 +274,17 @@ public class Store_functionality_implementation implements Store_functionality {
 
     public void rollback_transaction() throws SQLException {
         conn.rollback();
+    }
+
+    public String get_ISBN(String title_string) throws SQLException {
+        String sql = "select ISBN from  book where title =    "+title_string;
+        System.out.println(sql);
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
+        String ret = "EMPTY";
+        while (rs.next()) {
+             ret = rs.getString("ISBN");
+        }
+        return ret;
     }
 }

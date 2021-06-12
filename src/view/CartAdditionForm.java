@@ -1,18 +1,26 @@
 package view;
+
 import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.BookBuilder;
+import model.Schema.Book;
 import model.Schema.Book_Order;
+import utils.String_utils;
+import utils.regex_matcher;
+
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 
 import static view.ConfirmOrderForm.getObjectsTableFromOrders;
 
@@ -20,6 +28,7 @@ import static view.ConfirmOrderForm.getObjectsTableFromOrders;
 public class CartAdditionForm extends Application {
     private Controller controller = null;
     private ArrayList<Book_Order> cart = null;
+
     {
         try {
             controller = Controller.get_instance();
@@ -28,14 +37,17 @@ public class CartAdditionForm extends Application {
             System.out.println("Failed to load Controller;");
         }
     }
+
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
     public TableView<Object[]> table = new TableView<>();
-    public static void main (String[] args) {
+
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
+//        STA gridPane = componentsBuilder.createFormPane(false);
         table.setEditable(true);
         Scene scene = new Scene(new Group());
         stage.setTitle("Shopping Cart");
@@ -44,15 +56,15 @@ public class CartAdditionForm extends Application {
         stage.setWidth(1200);
         stage.setHeight(700);
         stage.setResizable(false);
-        Button add_to_cart =new Button("Add to Cart");
-        Button remove_from_cart =new Button("Remove From Cart");
+        Button add_to_cart = new Button("Add to Cart");
+        Button remove_from_cart = new Button("Remove From Cart");
         TextField title = new TextField();
         title.setMinWidth(480);
         TextField copies = new TextField();
         copies.setMinWidth(480);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
-        HBox hBox=new HBox();
+        HBox hBox = new HBox();
         Button back = new Button();
         Button logout = new Button("Logout");
         HBox topBar = componentsBuilder.buildTopHBox(back, logout, stage);
@@ -62,22 +74,48 @@ public class CartAdditionForm extends Application {
         controlBar.getChildren().addAll(title, copies, add_to_cart, remove_from_cart);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(topBar, controlBar, table);
-        ((Group)scene.getRoot()).getChildren().addAll(vbox);
+        ((Group) scene.getRoot()).getChildren().addAll(vbox);
         stage.setScene(scene);
         stage.show();
-        add_to_cart.setOnAction(e->{
+        add_to_cart.setOnAction(e -> {
             try {
+                BookBuilder builder = new BookBuilder();
+                String title_string = title.getText();
+                title_string = "\"" + title_string +"\"";
+                String ISBN = controller.get_ISBN(title_string);
+
+                builder.setTitle(title.getText());
+                builder.setISBN(ISBN);
+                Book book = builder.build();
+                String str = copies.getText();
+                regex_matcher matcher = new regex_matcher();
+                if (!matcher.check_int(str)) {
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "Enter number  ");
+                    return;
+                }
+                String_utils utils = new String_utils();
+                int cop = utils.String_to_int(str);
+                if(cop<=0){
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "number must be positive  ");
+                    return;
+                }
+
+                boolean add = controller.add_book_to_cart(book, utils.String_to_int(str));
+                if(!add ){
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "BOOK doesn't exit with this copies  ");
+                     return;
+                }
                 table.getColumns().clear();
-                Object[][] x= convertCartTOArray(cart);
+                Object[][] x = convertCartTOArray(cart);
                 SearchBookTableView.UpdateTable(x, table);
             } catch (Exception ex) {
                 System.out.println("Error displaying Table");
             }
         });
-        remove_from_cart.setOnAction(e->{
+        remove_from_cart.setOnAction(e -> {
             try {
                 table.getColumns().clear();
-                Object[][] x= convertCartTOArray(cart);
+                Object[][] x = convertCartTOArray(cart);
                 SearchBookTableView.UpdateTable(x, table);
             } catch (Exception ex) {
                 System.out.println("Error displaying Table");
@@ -85,7 +123,7 @@ public class CartAdditionForm extends Application {
         });
     }
 
-    private Object [][] convertCartTOArray(ArrayList<Book_Order> cart) {
+    private Object[][] convertCartTOArray(ArrayList<Book_Order> cart) {
         return getObjectsTableFromOrders(cart, 0);
     }
 }

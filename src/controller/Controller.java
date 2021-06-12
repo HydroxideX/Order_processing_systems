@@ -182,4 +182,8 @@ public class Controller {
     public void rollback_transaction() throws SQLException {
         store.rollback_transaction();
     }
+
+    public String get_ISBN(String title_string) throws SQLException {
+        return store.get_ISBN(title_string);
+    }
 }
