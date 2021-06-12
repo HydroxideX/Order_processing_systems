@@ -105,6 +105,7 @@ public class SearchBookForm extends Application {
             }
             try {
                 controller.search(sq);
+                controller.commit_transaction();
                 SearchBookTableView gui = new SearchBookTableView(sq);
                 try {
                     gui.start(primaryStage);

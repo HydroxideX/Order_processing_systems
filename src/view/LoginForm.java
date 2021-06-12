@@ -44,6 +44,7 @@ public class LoginForm extends Application {
         Login.setOnAction(event -> {
             try {
                 boolean can = Controller.get_instance().login(username.getText(),password.getText());
+                Controller.get_instance().commit_transaction();
                 if(can){
                     System.out.println("go");
                     StoreFunctionsForm gui=new StoreFunctionsForm();

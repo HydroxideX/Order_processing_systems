@@ -52,7 +52,6 @@ public class Controller {
                 e.printStackTrace();
             }
         }
-
         return result;
     }
 
@@ -174,5 +173,13 @@ public class Controller {
         }
         return true;
         // to stop the execution of addition
+    }
+
+    public void commit_transaction() throws SQLException {
+        store.commit_transaction();
+    }
+
+    public void rollback_transaction() throws SQLException {
+        store.rollback_transaction();
     }
 }

@@ -110,7 +110,13 @@ public class BookAdditionForm extends Application {
             if (matcher.check_varchar(publisher.getText())) {
                 builder.setPublisher_name(publisher.getText());
             }
-            boolean add = controller.add_new_book(builder.build());
+            boolean add = false;
+            try {
+                add = controller.add_new_book(builder.build());
+                controller.commit_transaction();
+            } catch (SQLException e) {
+
+            }
             if (add) {
                 componentsBuilder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "success!", "book id added successfully");
             } else {

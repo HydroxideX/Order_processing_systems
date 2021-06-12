@@ -53,7 +53,6 @@ public class Store_functionality_implementation implements Store_functionality {
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
-        conn.commit();
         statement.close();
         return true;
     }
@@ -64,7 +63,6 @@ public class Store_functionality_implementation implements Store_functionality {
                 + book.getISBN() + "' AND TITLE = '" + book.getTitle() + "';";
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
-        conn.commit();
         statement.close();
         return msg;
     }
@@ -84,7 +82,6 @@ public class Store_functionality_implementation implements Store_functionality {
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
-        conn.commit();
         statement.close();
         return msg;
     }
@@ -97,7 +94,6 @@ public class Store_functionality_implementation implements Store_functionality {
                 order.getUser_name() + "'  AND COPIES = '" + order.getCopies() + "'  LIMIT 1;";
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
-        conn.commit();
         statement.close();
         return msg;
     }
@@ -115,7 +111,6 @@ public class Store_functionality_implementation implements Store_functionality {
                     .setDate_ordered(date).setUser_name(rs.getString("user_name"));
             oq.add_to_result(ob.build());
         }
-        conn.commit();
         statement.close();
     }
 
@@ -135,7 +130,6 @@ public class Store_functionality_implementation implements Store_functionality {
                     .setTitle(rs.getString("title")).setYear(rs.getInt("publication_year"));
             sq.add_to_result(bb.build());
         }
-        conn.commit();
         statement.close();
     }
 
@@ -170,7 +164,6 @@ public class Store_functionality_implementation implements Store_functionality {
         String sql = "update online_user  set  MANAGER =true where EMAIL_ADDRESS = " + email;
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.executeUpdate();
-        conn.commit();
         return true;
     }
 
@@ -202,7 +195,6 @@ public class Store_functionality_implementation implements Store_functionality {
         String sql = "select count(*) as cnt from " + table + "  where " + field + " = " + value;
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
-        conn.commit();
         ResultSet rs = statement.executeQuery();
         rs.next();
         return rs.getInt("cnt");
@@ -271,5 +263,13 @@ public class Store_functionality_implementation implements Store_functionality {
         ArrayList<Pair<String, Integer>> result = new ArrayList<>();
         rs.next();
         return rs.getInt("cnt");
+    }
+
+    public void commit_transaction() throws SQLException {
+        conn.commit();
+    }
+
+    public void rollback_transaction() throws SQLException {
+        conn.rollback();
     }
 }

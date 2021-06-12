@@ -69,6 +69,7 @@ public class ConfirmOrderForm extends Application {
         BookOrderQuery oq = new BookOrderQuery();
         try {
             controller.get_manager_orders(oq);
+            controller.commit_transaction();
         } catch (SQLException e) {
             System.out.println("SQL Error");
         }
@@ -89,6 +90,7 @@ public class ConfirmOrderForm extends Application {
                             .setCopies(Integer.valueOf(String.valueOf(x[r][5])))
                             .setISBN((String)x[r][1]).setTitle((String)x[r][2]).setDate_ordered(sql);
                     controller.confirm_order(ob.build());
+                    controller.commit_transaction();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error!");
@@ -99,6 +101,7 @@ public class ConfirmOrderForm extends Application {
                 }
                 BookOrderQuery oq_temp = new BookOrderQuery();
                 controller.get_manager_orders(oq_temp);
+                controller.commit_transaction();
                 ArrayList<Book_Order> orders_temp = oq_temp.get_result_rows();
                 table.getColumns().clear();
                  x = convertOrdersTOArray(orders_temp);

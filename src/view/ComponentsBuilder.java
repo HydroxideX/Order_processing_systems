@@ -68,6 +68,7 @@ public class ComponentsBuilder {
         logout.setOnAction(event -> {
             try {
                 Controller.get_instance().get_userProxy().logout();
+                Controller.get_instance().commit_transaction();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
