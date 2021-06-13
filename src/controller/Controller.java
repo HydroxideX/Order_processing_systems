@@ -42,15 +42,23 @@ public class Controller {
 
     public CheckOutResult Checkout() throws SQLException {
         CheckOutResult result = new CheckOutResult();
+        boolean SELL =true;
         for (Book_Order order : proxy.get_cart()) {
             try {
-                store.modify_existing_book(order.getTitle(), order.getISBN(), -1 * order.getCopies());
+                order.setCopies(-1 * order.getCopies());
+                store.modify_existing_book(order.getTitle(), order.getISBN(),  order.getCopies());
                 store.place_order(order);
                 result.insert_record(order.getTitle(), true, store.get_available_book_with_isbn(order.getISBN()), order.getCopies());
             } catch (SQLException e) {
+                SELL = false;
                 result.insert_record(order.getTitle(), false, store.get_available_book_with_isbn(order.getISBN()), 0);
-                e.printStackTrace();
             }
+        }
+        if(SELL){
+            store.commit_transaction();
+            proxy.get_cart().clear();
+        }else{
+            store.rollback_transaction();
         }
         return result;
     }
@@ -122,9 +130,8 @@ public class Controller {
         return store.get_top_books(10);
     }
 
-    public void remove_book(String ISBN, int copies) {
-
-        proxy.remove_book(ISBN, copies);
+    public boolean remove_book(String ISBN, int copies) {
+        return proxy.remove_book(ISBN, copies);
     }
 
     public int get_available_book_with_title(String title) throws SQLException {

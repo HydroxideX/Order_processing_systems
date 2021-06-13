@@ -124,7 +124,10 @@ public class CartAdditionForm extends Application {
                     componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "number must be positive  ");
                     return;
                 }
-                controller.remove_book(book.getISBN(), utils.String_to_int(str));
+                boolean remove_success = controller.remove_book(book.getISBN(), utils.String_to_int(str));
+                if(!remove_success){
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "too many copies to remove");
+                }
                 presentCartOnTable(cart, table);
             } catch (Exception ex) {
                 System.out.println("Error displaying Table");

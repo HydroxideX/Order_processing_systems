@@ -303,3 +303,10 @@ public class Store_functionality_implementation implements Store_functionality {
         return str;
     }
 }
+//var mongoose = requre("mongoose");
+//var scema = mongoose.Schma (
+//        {
+//                name : String ,
+//                id : num ,
+//        }
+//)
