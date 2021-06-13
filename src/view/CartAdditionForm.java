@@ -74,8 +74,10 @@ public class CartAdditionForm extends Application {
                 BookBuilder builder = new BookBuilder();
                 String title_string = title.getText();
                 String ISBN = controller.get_ISBN(title_string);
+                float price = controller.get_price(title_string);
                 builder.setTitle(title.getText());
                 builder.setISBN(ISBN);
+                builder.set_Selling_price(price);
                 Book book = builder.build();
                 String str = copies.getText();
                 regex_matcher matcher = new regex_matcher();
@@ -112,15 +114,10 @@ public class CartAdditionForm extends Application {
                 String str = copies.getText();
                 regex_matcher matcher = new regex_matcher();
                 if (!matcher.check_int(str)) {
-                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "Enter number  ");
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "Enter a positive number  ");
                     return;
                 }
                 String_utils utils = new String_utils();
-                int cop = utils.String_to_int(str);
-                if (cop <= 0) {
-                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "number must be positive  ");
-                    return;
-                }
                 boolean remove_success = controller.remove_book(book.getISBN(), utils.String_to_int(str));
                 if(!remove_success){
                     componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "too many copies to remove");

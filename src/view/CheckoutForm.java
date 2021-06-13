@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import model.CheckOutResult;
+import utils.String_utils;
 import utils.regex_matcher;
 
 import java.sql.SQLException;
@@ -58,10 +59,15 @@ public class CheckoutForm extends Application {
                 return;
             }
             try {
+                if(Controller.get_instance().is_cart_empty()){
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "cart is Empty ");
+                    return;
+                }
                 CheckOutResult result = Controller.get_instance().Checkout();
-                boolean success = true;
+                String_utils utils = new String_utils();
                 ArrayList<String> error_book = new ArrayList<>();
                 String books = "";
+                StringBuilder all_books = new StringBuilder();
                 for (int i = 0; i < result.get_size(); i++) {
                     if (!result.sell(i)) {
                         error_book.add(result.get_title(i));
@@ -69,11 +75,18 @@ public class CheckoutForm extends Application {
                             books += ",";
                         }
                         books += result.get_title(i);
+                    }else{
+                        if (all_books.length() != 0) {
+                            all_books.append(",");
+                        }
+                        all_books.append(result.get_title(i));
                     }
                 }
 
                 if (error_book.size() > 0) {
                     componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "not enough copies for " + books);
+                } else {
+                    componentsBuilder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "success !", "price : " +utils.float_to_string( result.get_price()) );
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

@@ -17,7 +17,7 @@ public class store_functionality_test {
         }
         BookBuilder bb = new BookBuilder().setISBN("ARgR")
                 .setAuthor("hag").setCategory("science")
-                .setCopies_available(15).setSelling_price((float)1656.2)
+                .setCopies_available(15).set_Selling_price((float)1656.2)
                 .setPublisher_name("yahia").setThreshold(10).setTitle("annoyingorange2").setYear(1996);
         try {
             assertEquals("row changed.",sf.add_new_book(bb.build()));
@@ -35,7 +35,7 @@ public class store_functionality_test {
         }
         BookBuilder bb = new BookBuilder().setISBN("ARR")
                 .setAuthor("ha").setCategory("science")
-                .setCopies_available(15).setSelling_price((float)1656.2)
+                .setCopies_available(15).set_Selling_price((float)1656.2)
                 .setPublisher_name("yahia").setThreshold(15).setTitle("annoyingorange").setYear(1996);
         try {
             assertEquals("row changed.",sf.modify_existing_book(bb.build(), 10));

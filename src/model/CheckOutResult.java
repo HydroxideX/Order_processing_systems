@@ -9,6 +9,7 @@ public class CheckOutResult {
     private ArrayList<Boolean> IS_sell;
     private ArrayList<Integer> available;
     private ArrayList<Integer> selled;
+    private float price = 0;
 
     public CheckOutResult() {
         titles = new ArrayList<>();
@@ -27,6 +28,7 @@ public class CheckOutResult {
         available.add(remain);
         selled.add(sell_amount);
     }
+
     public String get_title(int index) {
         return titles.get(index);
     }
@@ -37,5 +39,13 @@ public class CheckOutResult {
 
     public int get_available(int index) {
         return available.get(index);
+    }
+
+    public void set_price(float price) {
+        this.price = price;
+    }
+
+    public float get_price() {
+        return price;
     }
 }

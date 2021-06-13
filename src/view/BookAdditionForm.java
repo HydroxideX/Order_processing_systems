@@ -96,7 +96,7 @@ public class BookAdditionForm extends Application {
             builder.setISBN(ISBN.getText());
             builder.setTitle(title.getText());
             builder.setCategory(category.getText().toLowerCase());
-            builder.setSelling_price(string_utils.String_to_float(price.getText()));
+            builder.set_Selling_price(string_utils.String_to_float(price.getText()));
             builder.setThreshold(string_utils.String_to_int(threshold.getText()));
 
             if (matcher.check_varchar(author.getText())) {

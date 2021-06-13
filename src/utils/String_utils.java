@@ -1,7 +1,7 @@
 package utils;
 
 public class String_utils {
-    public int String_to_int(String s){
+    public int String_to_int(String s) {
         return Integer.parseInt(s);
     }
 
@@ -9,7 +9,7 @@ public class String_utils {
         return Float.parseFloat(s);
     }
 
-    public java.sql.Date String_to_date(String s){
+    public java.sql.Date String_to_date(String s) {
         return java.sql.Date.valueOf(s);
     }
 
@@ -17,7 +17,11 @@ public class String_utils {
         return s.toLowerCase();
     }
 
-    public  String wrap(String str){
-        return "\"" + str+ "\"";
+    public String wrap(String str) {
+        return "\"" + str + "\"";
+    }
+
+    public String float_to_string(float f) {
+        return String.valueOf(f);
     }
 }

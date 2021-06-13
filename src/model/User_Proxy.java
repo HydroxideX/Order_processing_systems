@@ -50,6 +50,7 @@ public class User_Proxy {
         builder.setISBN(book.getISBN());
         builder.setTitle(book.getTitle());
         builder.setUser_name(current_user.getUser_name());
+        builder.set_price(book.getSelling_price());
         cart.add(builder.build());
         return true;
     }

@@ -121,14 +121,14 @@ public class StoreFunctionsForm extends Application  {
             }
         });
 
-        generateReports.setOnAction(event -> {
-            GenerateReportsForm gui=new GenerateReportsForm();
-            try {
-                gui.start(primaryStage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        generateReports.setOnAction(event -> {
+//            GenerateReportsForm gui=new GenerateReportsForm();
+//            try {
+//                gui.start(primaryStage);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     public static void main(String[] args) {

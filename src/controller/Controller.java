@@ -42,24 +42,26 @@ public class Controller {
 
     public CheckOutResult Checkout() throws SQLException {
         CheckOutResult result = new CheckOutResult();
-        boolean SELL =true;
+        boolean SELL = true;
+        float price = 0 ;
         for (Book_Order order : proxy.get_cart()) {
             try {
-                order.setCopies(-1 * order.getCopies());
-                store.modify_existing_book(order.getTitle(), order.getISBN(),  order.getCopies());
+                store.modify_existing_book(order.getTitle(), order.getISBN(), -1 * order.getCopies());
                 store.place_order(order);
-                result.insert_record(order.getTitle(), true, store.get_available_book_with_isbn(order.getISBN()), order.getCopies());
+                result.insert_record(order.getTitle(), true, store.get_available_book_with_isbn(order.getISBN()),-1 *  order.getCopies());
+                price+=order.get_total_price();
             } catch (SQLException e) {
                 SELL = false;
                 result.insert_record(order.getTitle(), false, store.get_available_book_with_isbn(order.getISBN()), 0);
             }
         }
-        if(SELL){
+        if (SELL) {
             store.commit_transaction();
             proxy.get_cart().clear();
-        }else{
+        } else {
             store.rollback_transaction();
         }
+        result.set_price(price);
         return result;
     }
 
@@ -116,7 +118,7 @@ public class Controller {
         return store.get_sales();
     }
 
-    public String get_username(){
+    public String get_username() {
         return proxy.get_curr_username();
     }
 
@@ -135,11 +137,12 @@ public class Controller {
     }
 
     public int get_available_book_with_title(String title) throws SQLException {
-        title = "\"" + title + "\"";
+        store.wrap(title);
         return store.get_available_book_with_title(title);
     }
 
     public int get_available_book_with_ISBN(String ISBN) throws SQLException {
+        store.wrap(ISBN);
         return store.get_available_book_with_isbn(ISBN);
     }
 
@@ -164,7 +167,7 @@ public class Controller {
     }
 
     public boolean has_book_with_title(String title) {
-        title = "\"" + title + "\"";
+        store.wrap(title);
         try {
             return store.has_book_with_title(title);
         } catch (SQLException throwables) {
@@ -196,5 +199,13 @@ public class Controller {
 
     public String get_ISBN(String title_string) throws SQLException {
         return store.get_ISBN(title_string);
+    }
+
+    public boolean is_cart_empty() {
+        return proxy.get_cart().size() == 0;
+    }
+
+    public float get_price(String title_string) throws SQLException {
+        return store.get_price(title_string);
     }
 }

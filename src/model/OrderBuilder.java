@@ -13,6 +13,7 @@ public class OrderBuilder {
     private String user_name = "";
     private Integer copies = null;
     private java.sql.Date date_ordered = null;
+    private float price = 0;
 
     public OrderBuilder setISBN(String ISBN) {
         this.ISBN = ISBN;
@@ -39,13 +40,17 @@ public class OrderBuilder {
         return this;
     }
 
-    public OrderBuilder build_date(){
+    public OrderBuilder build_date() {
         java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         System.out.println(date);
         return this;
     }
 
+    public void set_price(float price) {
+        this.price = price;
+    }
+
     public Book_Order build() {
-        return new Book_Order(ISBN, title, user_name, copies, date_ordered);
+        return new Book_Order(ISBN, title, user_name, copies, date_ordered,price );
     }
 }

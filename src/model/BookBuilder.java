@@ -53,7 +53,7 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder setSelling_price(Float selling_price) {
+    public BookBuilder set_Selling_price(Float selling_price) {
         this.selling_price = selling_price;
         return this;
     }

@@ -109,7 +109,8 @@ public class Store_functionality_implementation implements Store_functionality {
             java.sql.Date date = rs.getDate("DATE_ORDERED");
             ob.setCopies(rs.getInt("copies")).setISBN(rs.getString("ISBN"))
                     .setTitle(rs.getString("title"))
-                    .setDate_ordered(date).setUser_name(rs.getString("user_name"));
+                    .setDate_ordered(date)
+                    .setUser_name(rs.getString("user_name"));
             oq.add_to_result(ob.build());
         }
         statement.close();
@@ -127,7 +128,7 @@ public class Store_functionality_implementation implements Store_functionality {
             bb.setAuthor(rs.getString("author")).setCategory(rs.getString("category"))
                     .setCopies_available(rs.getInt("copies")).setISBN(rs.getString("ISBN"))
                     .setPublisher_name(rs.getString("publisher_name"))
-                    .setSelling_price(rs.getFloat("selling_price")).setThreshold(rs.getInt("threshold"))
+                    .set_Selling_price(rs.getFloat("selling_price")).setThreshold(rs.getInt("threshold"))
                     .setTitle(rs.getString("title")).setYear(rs.getInt("publication_year"));
             sq.add_to_result(bb.build());
         }
@@ -142,7 +143,7 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public int get_available_book_with_title(String title) throws SQLException {
-        title =wrap(title);
+        title = wrap(title);
         return get_available_book("title", title);
     }
 
@@ -281,7 +282,7 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public String get_ISBN(String title_string) throws SQLException {
-        title_string =wrap(title_string);
+        title_string = wrap(title_string);
         String sql = "select ISBN from  book where title = " + title_string;
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -292,13 +293,27 @@ public class Store_functionality_implementation implements Store_functionality {
         }
         return ret;
     }
-   public String wrap(String str){
+
+    public String wrap(String str) {
         String_utils utils = new String_utils();
         regex_matcher matcher = new regex_matcher();
         if (!matcher.isWrapped(str)) {
             str = utils.wrap(str);
         }
         return str;
+    }
+
+    public float get_price(String title_string) throws SQLException {
+        title_string = wrap(title_string);
+        String sql = "select SELLING_PRICE from  book where title = " + title_string;
+        System.out.println(sql);
+        PreparedStatement statement = conn.prepareStatement(sql);
+        ResultSet rs = statement.executeQuery();
+        float ret = 0;
+        while (rs.next()) {
+            ret = rs.getFloat("SELLING_PRICE");
+        }
+        return ret;
     }
 }
 //var mongoose = requre("mongoose");
