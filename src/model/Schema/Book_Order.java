@@ -52,12 +52,10 @@ public class Book_Order {
     }
 
     public Integer getCopies() {
-
         return copies;
     }
 
     public void setCopies(Integer copies) {
-        assert copies > 0;
         this.copies = copies;
     }
 

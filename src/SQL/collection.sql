@@ -18,7 +18,8 @@ CREATE TABLE ONLINE_USER (
                              PHONE_NO VARCHAR(30),
                              SHIPPING_ADDRESS VARCHAR(30),
                              MANAGER BOOL DEFAULT 0,
-                             PRIMARY KEY(USER_NAME, EMAIL_ADDRESS)
+                             PRIMARY KEY(USER_NAME, EMAIL_ADDRESS),
+                             INDEX (USER_NAME)
 );
 
 CREATE TABLE AUTHOR (
@@ -39,6 +40,7 @@ CREATE TABLE BOOK (
                       THRESHOLD INT NOT NULL,
                       COPIES INT NOT NULL,
                       PRIMARY KEY(ISBN, TITLE),
+                      INDEX (TITLE),
                       FOREIGN KEY (PUBLISHER_NAME) REFERENCES PUBLISHER (PUBLISHER_NAME) ON UPDATE CASCADE ON DELETE CASCADE,
                       FOREIGN KEY (AUTHOR) REFERENCES AUTHOR (AUTHOR_NAME) ON UPDATE CASCADE ON DELETE CASCADE
 );
