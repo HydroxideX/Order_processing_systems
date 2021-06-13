@@ -49,7 +49,11 @@ public class UserPromotionForm extends Application {
                 controller = Controller.get_instance();
                 regex_matcher rm = new regex_matcher();
                 if (rm.check_varchar(username.getText())) {
-                    controller.Promote(username.getText());
+                    boolean success = controller.Promote(username.getText());
+                    if(!success){
+                        componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "invalid user ");
+                        return;
+                    }
                     controller.commit_transaction();
                     componentsBuilder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Success", "User Promoted Successfully");
                 } else {
