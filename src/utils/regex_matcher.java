@@ -27,27 +27,32 @@ public class regex_matcher {
     }
 
     public boolean check_year(String s) {
-        if(s == null) return false;
+        if (s == null) return false;
         String year_regex = "^\\d{4}";
         return match_string(s, year_regex);
     }
 
     public boolean check_date(String s) {
-        if(s == null) return false;
+        if (s == null) return false;
         String date_regex = "^\\d{4}-\\d{2}-\\d{2}$";
         return match_string(s, date_regex);
     }
 
     public boolean check_int(String s) {
-        if(s == null) return false;
+        if (s == null) return false;
         String int_regex = "^([+]?\\d+)$";
         return match_string(s, int_regex);
     }
 
     public boolean check_float(String s) {
-        if(s == null) return false;
+        if (s == null) return false;
         String float_regex = "^([+]?\\d+(\\.\\d+)?)$";
         return match_string(s, float_regex);
+    }
+
+    public boolean isWrapped(String str) {
+        if (str.length() <= 1) return false;
+        return str.charAt(0) == '\"' && str.charAt(str.length() - 1) == '\"';
     }
 
     public boolean is_empty(String str) {
@@ -55,18 +60,18 @@ public class regex_matcher {
     }
 
     public boolean check_valid_year(Integer year) {
-        if(year == null) return false;
+        if (year == null) return false;
         return year > 0 && year <= Calendar.getInstance().get(Calendar.YEAR);
     }
 
     public boolean check_credit_card(String s) {
-        if(s == null) return false;
+        if (s == null) return false;
         String credit_card_regex = "^\\d{16}$";
         return match_string(s, credit_card_regex);
     }
 
-    public boolean check_expiry_date(String s){
-        if(s == null) return false;
+    public boolean check_expiry_date(String s) {
+        if (s == null) return false;
         String expiry_date_regex = "^((0[0-9])|(1[0-2]))\\/\\d{2}$";
         return match_string(s, expiry_date_regex);
     }

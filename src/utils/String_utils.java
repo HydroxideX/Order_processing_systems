@@ -16,4 +16,8 @@ public class String_utils {
     public String convert_to_lower(String s) {
         return s.toLowerCase();
     }
+
+    public  String wrap(String str){
+        return "\"" + str+ "\"";
+    }
 }

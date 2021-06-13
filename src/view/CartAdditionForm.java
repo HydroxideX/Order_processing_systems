@@ -81,9 +81,7 @@ public class CartAdditionForm extends Application {
             try {
                 BookBuilder builder = new BookBuilder();
                 String title_string = title.getText();
-                title_string = "\"" + title_string +"\"";
                 String ISBN = controller.get_ISBN(title_string);
-
                 builder.setTitle(title.getText());
                 builder.setISBN(ISBN);
                 Book book = builder.build();
@@ -95,20 +93,21 @@ public class CartAdditionForm extends Application {
                 }
                 String_utils utils = new String_utils();
                 int cop = utils.String_to_int(str);
-                if(cop<=0){
+                if (cop <= 0) {
                     componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "number must be positive  ");
                     return;
                 }
 
                 boolean add = controller.add_book_to_cart(book, utils.String_to_int(str));
-                if(!add ){
+                if (!add) {
                     componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "BOOK doesn't exit with this copies  ");
-                     return;
+                    return;
                 }
                 table.getColumns().clear();
                 Object[][] x = convertCartTOArray(cart);
                 SearchBookTableView.UpdateTable(x, table);
             } catch (Exception ex) {
+                ex.printStackTrace();
                 System.out.println("Error displaying Table");
             }
         });

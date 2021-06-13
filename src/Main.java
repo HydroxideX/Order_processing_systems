@@ -45,15 +45,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        return;
-//        System.out.println(System.getProperty("user.dir"));
-//        try {
-//         //  testInsert();
-//          testSelect();
-//        } catch (SQLException e) {
-//            System.out.println("Cant connect to database");
-//            e.printStackTrace();
-//        }
+        System.out.println(System.getProperty("user.dir"));
+        try {
+         //  testInsert();
+          testSelect();
+        } catch (SQLException e) {
+            System.out.println("Cant connect to database");
+            e.printStackTrace();
+        }
 
     }
 

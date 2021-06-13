@@ -5,6 +5,8 @@ import model.Schema.Book;
 import model.Schema.Book_Order;
 import model.Schema.User;
 import utils.DatabaseCreds;
+import utils.String_utils;
+import utils.regex_matcher;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,13 +33,14 @@ public class Store_functionality_implementation implements Store_functionality {
 
     private String build_bracket(Book book) {
         String bracket = "'" + book.getISBN() + "',";
-        if(book.getAuthor()!= null)  bracket += "'" + book.getAuthor() + "', " ;
+        if (book.getAuthor() != null) bracket += "'" + book.getAuthor() + "', ";
         else bracket += null + ", ";
-        bracket +=  "'" +book.getTitle() + "', ";
-        if(book.getPublisher_name()!= null)  bracket += "'" + book.getAuthor() + "', " ;
+        bracket += "'" + book.getTitle() + "', ";
+        if (book.getPublisher_name() != null) bracket += "'" + book.getAuthor() + "', ";
         else bracket += null + ", ";
-        if(book.getYear()!= null)  bracket += "'" + book.getYear() + "', ";
-        else bracket += null + ", ";;
+        if (book.getYear() != null) bracket += "'" + book.getYear() + "', ";
+        else bracket += null + ", ";
+        ;
         bracket += " '" + book.getCategory() + "', '" + book.getSelling_price()
                 + "', '" + book.getThreshold() + "', '" + book.getCopies_available() + "'";
         return bracket;
@@ -45,7 +48,7 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public boolean add_new_book(Book book) throws SQLException {
-        if (!book.is_valid()){
+        if (!book.is_valid()) {
             System.out.println("not valid");
             return false;
         }
@@ -122,7 +125,7 @@ public class Store_functionality_implementation implements Store_functionality {
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
-            BookBuilder bb =new BookBuilder();
+            BookBuilder bb = new BookBuilder();
             bb.setAuthor(rs.getString("author")).setCategory(rs.getString("category"))
                     .setCopies_available(rs.getInt("copies")).setISBN(rs.getString("ISBN"))
                     .setPublisher_name(rs.getString("publisher_name"))
@@ -135,12 +138,13 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public int get_available_book_with_isbn(String isbn) throws SQLException {
-        isbn= "\"" + isbn + "\"";
+        isbn = wrap(isbn);
         return get_available_book("isbn", isbn);
     }
 
     @Override
     public int get_available_book_with_title(String title) throws SQLException {
+        title =wrap(title);
         return get_available_book("title", title);
     }
 
@@ -148,7 +152,7 @@ public class Store_functionality_implementation implements Store_functionality {
         String sql = "select copies as cnt from book   where " + field + " = " + value;
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             return rs.getInt("cnt");
         }
         return 0;
@@ -253,10 +257,11 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public boolean has_book_with_title(String title) throws SQLException {
-        return get_count("book","title",title)!=0;
+        return get_count("book", "title", title) != 0;
     }
+
     public boolean has_book_with_ISBN(String ISBN) throws SQLException {
-        return get_count("book","ISBN",ISBN)!=0;
+        return get_count("book", "ISBN", ISBN) != 0;
     }
 
     private int get_count(String table, String field, String value) throws SQLException {
@@ -277,14 +282,23 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public String get_ISBN(String title_string) throws SQLException {
-        String sql = "select ISBN from  book where title =    "+title_string;
+        title_string =wrap(title_string);
+        String sql = "select ISBN from  book where title =    " + title_string;
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         String ret = "EMPTY";
         while (rs.next()) {
-             ret = rs.getString("ISBN");
+            ret = rs.getString("ISBN");
         }
         return ret;
+    }
+   public String wrap(String str){
+        String_utils utils = new String_utils();
+        regex_matcher matcher = new regex_matcher();
+        if (!matcher.isWrapped(str)) {
+            str = utils.wrap(str);
+        }
+        return str;
     }
 }
