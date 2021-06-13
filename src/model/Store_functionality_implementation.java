@@ -257,15 +257,18 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public boolean has_book_with_title(String title) throws SQLException {
+        title = wrap(title);
         return get_count("book", "title", title) != 0;
     }
 
     public boolean has_book_with_ISBN(String ISBN) throws SQLException {
+        ISBN = wrap(ISBN);
         return get_count("book", "ISBN", ISBN) != 0;
     }
 
     private int get_count(String table, String field, String value) throws SQLException {
         String sql = "select count(*) as cnt from " + table + "  where " + field + "  =  " + value;
+        System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         ArrayList<Pair<String, Integer>> result = new ArrayList<>();
