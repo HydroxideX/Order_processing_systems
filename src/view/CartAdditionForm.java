@@ -37,9 +37,6 @@ public class CartAdditionForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
     public TableView<Object[]> table = new TableView<>();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
     @Override
     public void start(Stage stage) {

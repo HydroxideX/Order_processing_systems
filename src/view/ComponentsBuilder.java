@@ -34,6 +34,11 @@ public class ComponentsBuilder {
         return btn;
     }
 
+    public void init_stage(Stage stage){
+        stage.setWidth(1200);
+        stage.setHeight(700);
+        stage.setResizable(false);
+    }
     public HBox buildTopHBox(Button back, Button logout, Stage primaryStage){
         HBox hBox = new HBox();
         HBox h1 = buildTopHBox(logout,primaryStage);

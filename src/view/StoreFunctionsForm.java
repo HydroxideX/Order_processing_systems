@@ -28,12 +28,14 @@ public class StoreFunctionsForm extends Application  {
         vBox.getChildren().addAll(hBox, gridPane);
         addUIControls(gridPane, primaryStage);
         Scene scene = new Scene(vBox, 800, 500);
+        componentsBuilder.init_stage(primaryStage);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
 
     private void addUIControls(GridPane gridPane, Stage primaryStage) throws SQLException {
+
         Label headerLabel = new Label("Store");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         gridPane.add(headerLabel, 1,0,2,1);

@@ -31,9 +31,7 @@ public class SearchBookTableView extends Application {
         stage.setTitle("Search Result");
         table.setPrefWidth(1150);
         table.setPrefHeight(550);
-        stage.setWidth(1200);
-        stage.setHeight(700);
-        stage.setResizable(false);
+        componentsBuilder.init_stage(stage);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         Button back = new Button();

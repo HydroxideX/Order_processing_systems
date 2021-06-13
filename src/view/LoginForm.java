@@ -26,6 +26,7 @@ public class LoginForm extends Application {
         vBox.getChildren().addAll(gridPane);
         addUIControls(gridPane,primaryStage);
         Scene scene = new Scene(vBox, 800, 640);
+        componentsBuilder.init_stage(primaryStage);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

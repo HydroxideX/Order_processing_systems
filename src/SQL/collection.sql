@@ -56,6 +56,7 @@ CREATE TABLE BOOK_ORDER (
 );
 
 
++
 insert into ONLINE_USER (USER_NAME,PASSWORD,EMAIL_ADDRESS,MANAGER)values("default","----","----",true);
 insert into online_user values("sh3ra", "123", "sh3ra@gmail.com", "sh3ra", "shaarawy", "011543665589", "gnby", 1);
 insert into online_user values("yahia", "123", "yahia@gmail.com", "yahia", "elsaadawy", "011125112589", "bety", 1);
@@ -92,6 +93,7 @@ insert into book_order values ("1", "annoying orange", "2021-06-13", "yahia", 2)
 insert into book_order values ("2", "let me dribble rocket league", "2021-06-10", "sh3ra", 3);
 insert into book_order values ("3", "best guide on afk gameplay", "2021-06-09", "yahia", 7);
 insert into book_order values ("3", "best guide on afk gameplay", "2021-06-09", "sh3ra", -70);
+insert into book_order values ("3", "best guide on afk gameplay", "2021-06-09", "zayady", -70);
 insert into book_order values ("4", "hakuna matata", "2021-06-08", "zayady", -5);
 insert into book_order values ("5", "wandavision", "2021-06-13", "sh3ra", 4);
 insert into book_order values ("6", "deep thinking", "2021-06-07", "hamo", -3);

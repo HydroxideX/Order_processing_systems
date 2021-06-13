@@ -79,7 +79,6 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public String place_order(Book_Order order) throws SQLException {
-        if (!order.is_valid()) return "ERROR: values missing for add place order";
         String sql = "INSERT INTO BOOK_ORDER VALUES ('" + order.getISBN() + "', '" + order.getTitle() +
                 "', '" + order.getDate_ordered() + "', '" + order.getUser_name() + "', " + order.getCopies() + ");";
         System.out.println(sql);
@@ -91,7 +90,6 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public String confirm_order(Book_Order order) throws SQLException {
-        if (!order.is_valid()) return "ERROR: values missing for confirm order";
         String sql = "DELETE FROM book_order WHERE ISBN = '" + order.getISBN() + "' AND TITLE = '" +
                 order.getTitle() + "' AND DATE_ORDERED = '" + order.getDate_ordered() + "' AND USER_NAME = '" +
                 order.getUser_name() + "'  AND COPIES = '" + order.getCopies() + "'  LIMIT 1;";
