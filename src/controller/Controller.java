@@ -46,7 +46,8 @@ public class Controller {
         float price = 0 ;
         for (Book_Order order : proxy.get_cart()) {
             try {
-                store.modify_existing_book(order.getTitle(), order.getISBN(), -1 * order.getCopies());
+                order.setCopies(-1 * order.getCopies() );
+                store.modify_existing_book(order.getTitle(), order.getISBN(),  order.getCopies());
                 store.place_order(order);
                 result.insert_record(order.getTitle(), true, store.get_available_book_with_isbn(order.getISBN()),-1 *  order.getCopies());
                 price+=order.get_total_price();
@@ -61,7 +62,7 @@ public class Controller {
         } else {
             store.rollback_transaction();
         }
-        result.set_price(price);
+        result.set_price(-1*price);
         return result;
     }
 
@@ -98,9 +99,9 @@ public class Controller {
         store.modify_existing_book(book, quantity);
     }
 
-    public void place_order(Book_Order order) throws SQLException {
-        if (!proxy.is_manager()) return;
-        store.place_order(order);
+    public boolean place_order(Book_Order order) throws SQLException {
+        if (!proxy.is_manager()) return false;
+        return store.place_order(order);
     }
 
     public void confirm_order(Book_Order order) throws SQLException {

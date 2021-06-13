@@ -78,14 +78,14 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     @Override
-    public String place_order(Book_Order order) throws SQLException {
+    public boolean place_order(Book_Order order) throws SQLException {
         String sql = "INSERT INTO BOOK_ORDER VALUES ('" + order.getISBN() + "', '" + order.getTitle() +
                 "', '" + order.getDate_ordered() + "', '" + order.getUser_name() + "', " + order.getCopies() + ");";
         System.out.println(sql);
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
         statement.close();
-        return msg;
+        return true;
     }
 
     @Override

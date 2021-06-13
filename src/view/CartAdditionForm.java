@@ -50,10 +50,12 @@ public class CartAdditionForm extends Application {
         stage.setResizable(false);
         Button add_to_cart = new Button("Add to Cart");
         Button remove_from_cart = new Button("Remove From Cart");
+        Label title_label = new Label("Title");
+        Label copies_label = new Label("    Copies");
         TextField title = new TextField();
-        title.setMinWidth(480);
+        title.setMinWidth(400);
         TextField copies = new TextField();
-        copies.setMinWidth(480);
+        copies.setMinWidth(400);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         HBox hBox = new HBox();
@@ -63,7 +65,7 @@ public class CartAdditionForm extends Application {
         HBox controlBar = new HBox();
         hBox.setSpacing(100);
         controlBar.setSpacing(5);
-        controlBar.getChildren().addAll(title, copies, add_to_cart, remove_from_cart);
+        controlBar.getChildren().addAll(title_label, title, copies_label, copies, add_to_cart, remove_from_cart);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(topBar, controlBar, table);
         ((Group) scene.getRoot()).getChildren().addAll(vbox);

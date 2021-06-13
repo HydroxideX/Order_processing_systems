@@ -72,10 +72,15 @@ public class OrderPlaceConfirmForm extends Application {
                 }
                 orderBuilder.setUser_name(controller.get_username());
                 orderBuilder.build_date();
-                controller.place_order(orderBuilder.build());
+                boolean successs = controller.place_order(orderBuilder.build());
+
                 controller.commit_transaction();
+                componentsBuilder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Success!", "Order Placed!");
+
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "Book Not Found");
+
             }
 
         });
