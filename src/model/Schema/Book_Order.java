@@ -25,13 +25,6 @@ public class Book_Order {
         }
     }
 
-    public boolean is_valid() {
-        regex_matcher rm = new regex_matcher();
-        return rm.check_varchar(ISBN) & rm.check_varchar(title) &
-                rm.check_varchar(user_name)
-                & copies != -1 & date_ordered != null;
-    }
-
     public String getISBN() {
         return ISBN;
     }

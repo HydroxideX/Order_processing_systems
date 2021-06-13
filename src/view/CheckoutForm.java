@@ -28,6 +28,7 @@ public class CheckoutForm extends Application {
         vBox.getChildren().addAll(hBox, gridPane);
         addUIControls(gridPane);
         Scene scene = new Scene(vBox, 800, 640);
+        componentsBuilder.init_stage(primaryStage);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -58,8 +59,5 @@ public class CheckoutForm extends Application {
         });
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
 

@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import utils.ReportGenerator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class GenerateReportsForm extends Application  {
         vBox.getChildren().addAll(hBox, gridPane);
         addUIControls(gridPane);
         Scene scene = new Scene(vBox, 800, 500);
+        componentsBuilder.init_stage(primaryStage);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -50,7 +52,8 @@ public class GenerateReportsForm extends Application  {
             try {
                 controller = Controller.get_instance();
                 ArrayList<Pair<String, Integer>> sales_array = controller.get_sales();
-                System.out.println(sales_array);
+                ReportGenerator reportGenerator = new ReportGenerator();
+                reportGenerator.generateReport("sales_report.html", "sales", "Sales Report", "Book title and Copies Sold", sales_array);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -61,7 +64,8 @@ public class GenerateReportsForm extends Application  {
             try {
                 controller = Controller.get_instance();
                 ArrayList<Pair<String, Integer>> topCustomers_array = controller.get_top_users();
-                System.out.println(topCustomers_array);
+                ReportGenerator reportGenerator = new ReportGenerator();
+                reportGenerator.generateReport("customers_report.html", "customers", "Top Customers", "Customer Name and Number Books Bought", topCustomers_array);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -72,14 +76,12 @@ public class GenerateReportsForm extends Application  {
             try {
                 controller = Controller.get_instance();
                 ArrayList<Pair<String, Integer>> top_books_array = controller.get_top_books();
-                System.out.println(top_books_array);
+                ReportGenerator reportGenerator = new ReportGenerator();
+                reportGenerator.generateReport("books_report.html", "Books", "top 10 selling books", "Book title and Number of Copies Sold", top_books_array);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
         });
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

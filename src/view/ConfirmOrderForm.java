@@ -43,9 +43,7 @@ public class ConfirmOrderForm extends Application {
         stage.setTitle("Confirm Order");
         table.setPrefWidth(1150);
         table.setPrefHeight(550);
-        stage.setWidth(1200);
-        stage.setHeight(700);
-        stage.setResizable(false);
+        componentsBuilder.init_stage(stage);
         Button confirm =new Button("Confirm Order");
         Label row_id_label = new Label("Row ID");
         row_id_label.setMinHeight(20);
