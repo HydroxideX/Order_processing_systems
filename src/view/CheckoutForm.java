@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -10,6 +11,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import utils.regex_matcher;
+
+import java.sql.SQLException;
 
 public class CheckoutForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
@@ -50,6 +53,8 @@ public class CheckoutForm extends Application {
             } else {
 
             }
+
+
         });
     }
 

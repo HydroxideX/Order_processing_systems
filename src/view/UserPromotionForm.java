@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -9,6 +10,9 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import utils.regex_matcher;
+
+import java.sql.SQLException;
 
 public class UserPromotionForm extends Application {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
@@ -37,6 +41,23 @@ public class UserPromotionForm extends Application {
         Label username_label = componentsBuilder.addLabel(gridPane, "Enter Username", 2, 0);
         TextField username = componentsBuilder.addTextField(gridPane,40,2,1);
         Button submitButton = componentsBuilder.build_center_button(gridPane,"Promote", 40, 100, 0, 4, 2, 1);
+
+        submitButton.setOnAction(event -> {
+            Controller controller = null;
+            try {
+                controller = Controller.get_instance();
+                regex_matcher rm = new regex_matcher();
+                if (rm.check_varchar(username.getText())) {
+                    controller.Promote(username.getText());
+                    controller.commit_transaction();
+                    componentsBuilder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Success", "User Promoted Successfully");
+                } else {
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "Please enter a username");
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 
     public static void main(String[] args) {

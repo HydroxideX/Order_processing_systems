@@ -11,16 +11,16 @@ import javafx.stage.Stage;
 import model.BookOrderQuery;
 import model.OrderBuilder;
 import model.Schema.Book_Order;
+import utils.TableTransferUtil;
 import utils.regex_matcher;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
 public class ConfirmOrderForm extends Application {
+    TableTransferUtil tableTransferUtil = new TableTransferUtil();
     Object[][] x;
     private Controller controller = null;
     {
@@ -75,8 +75,8 @@ public class ConfirmOrderForm extends Application {
         }
         ArrayList<Book_Order> orders = oq.get_result_rows();
         table.getColumns().clear();
-        x = convertOrdersTOArray(orders);
-        SearchBookTableView.UpdateTable(x, table);
+        x = tableTransferUtil.convertOrdersTOArray(orders);
+        tableTransferUtil.updateTable(x, table);
         confirm.setOnAction(e->{
             try {
                 regex_matcher rm = new regex_matcher();
@@ -104,48 +104,13 @@ public class ConfirmOrderForm extends Application {
                 controller.commit_transaction();
                 ArrayList<Book_Order> orders_temp = oq_temp.get_result_rows();
                 table.getColumns().clear();
-                 x = convertOrdersTOArray(orders_temp);
-                SearchBookTableView.UpdateTable(x, table);
+                 x = tableTransferUtil.convertOrdersTOArray(orders_temp);
+                tableTransferUtil.updateTable(x, table);
             } catch (Exception ex) {
                 System.out.println("Error displaying Table");
             }
         });
     }
 
-    private Object [][] convertOrdersTOArray(ArrayList<Book_Order> orders) {
-        return getObjectsTableFromOrders(orders, 1);
-    }
 
-    static Object[][] getObjectsTableFromOrders(ArrayList<Book_Order> orders, int x) {
-        String[][] table = new String[orders.size()+1][5 + x];
-        if(x == 1) {
-            table[0][0] = "ID";
-            table[0][1] = "ISBN";
-            table[0][2] = "Title";
-            table[0][3] = "User";
-            table[0][4] = "Date";
-            table[0][5] = "Quantity";
-        } else {
-            table[0][0] = "ISBN";
-            table[0][1] = "Title";
-            table[0][2] = "User";
-            table[0][3] = "Date";
-            table[0][4] = "Quantity";
-        }
-        int j = 0;
-        for(int i = 0; i < orders.size(); i++){
-            j = 0;
-            if(x == 1) {
-                table[i + 1][j++] = String.valueOf(i+1);
-            }
-            table[i+1][j++] = orders.get(i).getISBN();
-            table[i+1][j++] = orders.get(i).getTitle();
-            table[i+1][j++] = orders.get(i).getUser_name();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String strDate = dateFormat.format(orders.get(i).getDate_ordered());
-            table[i+1][j++] = strDate;
-            table[i+1][j++] = String.valueOf(orders.get(i).getCopies());
-        }
-        return table;
-    }
 }

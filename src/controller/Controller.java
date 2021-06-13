@@ -63,7 +63,7 @@ public class Controller {
         if (all_copies == copies) {
             return proxy.add_book_to_cart_new_order(book, all_copies);
         } else {
-            return proxy.add_book_to_cart_existing(book, all_copies);
+            return proxy.add_book_to_cart_existing(book, copies);
         }
     }
 
@@ -98,14 +98,18 @@ public class Controller {
         store.confirm_order(order);
     }
 
-    public boolean Promote(String email) throws SQLException {
+    public boolean Promote(String username) throws SQLException {
         if (!proxy.is_manager()) return false;
-        return store.set_manager(email);
+        return store.set_manager(username);
     }
 
     public ArrayList<Pair<String, Integer>> get_sales() throws SQLException {
         if (!proxy.is_manager()) return null;
         return store.get_sales();
+    }
+
+    public String get_username(){
+        return proxy.get_curr_username();
     }
 
     public ArrayList<Pair<String, Integer>> get_top_users() throws SQLException {

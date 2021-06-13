@@ -6,7 +6,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -14,20 +13,17 @@ import model.BookBuilder;
 import model.Schema.Book;
 import model.Schema.Book_Order;
 import utils.String_utils;
+import utils.TableTransferUtil;
 import utils.regex_matcher;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-
-import static view.ConfirmOrderForm.getObjectsTableFromOrders;
 
 
 public class CartAdditionForm extends Application {
     private Controller controller = null;
     private ArrayList<Book_Order> cart = null;
+    private TableTransferUtil tableTransferUtil = new TableTransferUtil();
 
     {
         try {
@@ -47,7 +43,6 @@ public class CartAdditionForm extends Application {
 
     @Override
     public void start(Stage stage) {
-//        STA gridPane = componentsBuilder.createFormPane(false);
         table.setEditable(true);
         Scene scene = new Scene(new Group());
         stage.setTitle("Shopping Cart");
@@ -103,9 +98,7 @@ public class CartAdditionForm extends Application {
                     componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "BOOK doesn't exit with this copies  ");
                     return;
                 }
-                table.getColumns().clear();
-                Object[][] x = convertCartTOArray(cart);
-                SearchBookTableView.UpdateTable(x, table);
+                presentCartOnTable(cart, table);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("Error displaying Table");
@@ -113,16 +106,35 @@ public class CartAdditionForm extends Application {
         });
         remove_from_cart.setOnAction(e -> {
             try {
-                table.getColumns().clear();
-                Object[][] x = convertCartTOArray(cart);
-                SearchBookTableView.UpdateTable(x, table);
+                BookBuilder builder = new BookBuilder();
+                String title_string = title.getText();
+                String ISBN = controller.get_ISBN(title_string);
+                builder.setTitle(title.getText());
+                builder.setISBN(ISBN);
+                Book book = builder.build();
+                String str = copies.getText();
+                regex_matcher matcher = new regex_matcher();
+                if (!matcher.check_int(str)) {
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "Enter number  ");
+                    return;
+                }
+                String_utils utils = new String_utils();
+                int cop = utils.String_to_int(str);
+                if (cop <= 0) {
+                    componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "number must be positive  ");
+                    return;
+                }
+                controller.remove_book(book.getISBN(), utils.String_to_int(str));
+                presentCartOnTable(cart, table);
             } catch (Exception ex) {
                 System.out.println("Error displaying Table");
             }
         });
     }
 
-    private Object[][] convertCartTOArray(ArrayList<Book_Order> cart) {
-        return getObjectsTableFromOrders(cart, 0);
+    private void presentCartOnTable(ArrayList<Book_Order> cart, TableView<Object[]> table){
+        table.getColumns().clear();
+        Object[][] x = tableTransferUtil.convertOrdersTOArray(cart);
+        tableTransferUtil.updateTable(x, table);
     }
 }

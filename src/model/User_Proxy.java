@@ -28,6 +28,10 @@ public class User_Proxy {
         cart.clear();
     }
 
+    public String get_curr_username() {
+        return current_user.getUser_name();
+    }
+
 
     public int get_num_of_ordered_copies(Book book) {
         int copies = 0;

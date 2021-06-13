@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -10,6 +11,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GenerateReportsForm extends Application  {
     ComponentsBuilder componentsBuilder = new ComponentsBuilder();
@@ -40,6 +45,38 @@ public class GenerateReportsForm extends Application  {
         Button sales = componentsBuilder.buildButton(gridPane, "Total Book Sales", 2, 1, 40, 200, true);
         Button topCustomers = componentsBuilder.buildButton(gridPane, "Top Five Customers", 3, 1, 40, 200, true);
         Button topBooks = componentsBuilder.buildButton(gridPane, "Top Ten Books", 4, 1, 40, 200, true);
+        sales.setOnAction(event -> {
+            Controller controller = null;
+            try {
+                controller = Controller.get_instance();
+                ArrayList<Pair<String, Integer>> sales_array = controller.get_sales();
+                System.out.println(sales_array);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+        topCustomers.setOnAction( event -> {
+            Controller controller = null;
+            try {
+                controller = Controller.get_instance();
+                ArrayList<Pair<String, Integer>> topCustomers_array = controller.get_top_users();
+                System.out.println(topCustomers_array);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+        topBooks.setOnAction(event -> {
+            Controller controller = null;
+            try {
+                controller = Controller.get_instance();
+                ArrayList<Pair<String, Integer>> top_books_array = controller.get_top_books();
+                System.out.println(top_books_array);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 
     public static void main(String[] args) {

@@ -122,7 +122,6 @@ public class BookAdditionForm extends Application {
             } else {
                 componentsBuilder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Error!", "unknown error in database");
             }
-
         });
 
     }

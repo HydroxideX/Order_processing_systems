@@ -3,6 +3,8 @@ package model;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import model.Schema.Book_Order;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class OrderBuilder {
@@ -34,6 +36,12 @@ public class OrderBuilder {
 
     public OrderBuilder setDate_ordered(java.sql.Date date_ordered) {
         this.date_ordered = date_ordered;
+        return this;
+    }
+
+    public OrderBuilder build_date(){
+        java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        System.out.println(date);
         return this;
     }
 
