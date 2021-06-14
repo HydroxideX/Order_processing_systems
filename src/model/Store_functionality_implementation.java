@@ -81,7 +81,16 @@ public class Store_functionality_implementation implements Store_functionality {
     public boolean place_order(Book_Order order) throws SQLException {
         String sql = "INSERT INTO BOOK_ORDER VALUES ('" + order.getISBN() + "', '" + order.getTitle() +
                 "', '" + order.getDate_ordered() + "', '" + order.getUser_name() + "', " + order.getCopies() + ");";
-        System.out.println(sql);
+        PreparedStatement statement = conn.prepareStatement(sql);
+        msg = build_message_update(statement.executeUpdate());
+        statement.close();
+        return true;
+    }
+
+    @Override
+    public boolean confirm_sales(Book_Order order) throws SQLException {
+        String sql = "INSERT INTO SALES VALUES ('" + order.getISBN() + "', '" + order.getTitle() +
+                "', '" + order.getDate_ordered() + "', '" + order.getUser_name() + "', " + order.getCopies() + ");";
         PreparedStatement statement = conn.prepareStatement(sql);
         msg = build_message_update(statement.executeUpdate());
         statement.close();
@@ -208,7 +217,7 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public ArrayList<Pair<String, Integer>> get_sales() throws SQLException {
-        String sql = "select title ,sum(copies) as sum from book_order where  DATEDIFF( curdate(),DATE_ORDERED) <=30 and copies < 0" +
+        String sql = "select title ,sum(copies) as sum from SALES where  DATEDIFF( curdate(),DATE_ORDERED) <=30" +
                 " group by title  ";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
@@ -221,8 +230,8 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public ArrayList<Pair<String, Integer>> get_top_users(int cnt) throws SQLException {
-        String sql = "select USER_NAME ,sum(copies) as sum from book_order where  DATEDIFF( curdate(),DATE_ORDERED) <=90 and copies < 0" +
-                " group by USER_NAME  order by sum asc limit 5" + cnt;
+        String sql = "select USER_NAME ,sum(copies) as sum from SALES where  DATEDIFF( curdate(),DATE_ORDERED) <=90" +
+                " group by USER_NAME  order by sum DESC limit 5" + cnt;
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         ArrayList<Pair<String, Integer>> result = new ArrayList<>();
@@ -234,8 +243,8 @@ public class Store_functionality_implementation implements Store_functionality {
     }
 
     public ArrayList<Pair<String, Integer>> get_top_books(int cnt) throws SQLException {
-        String sql = "select title ,sum(copies) as sum from book_order where  DATEDIFF( curdate(),DATE_ORDERED) <=90 and copies < 0" +
-                " group by title  order by sum asc limit 10";
+        String sql = "select title ,sum(copies) as sum from SALES where  DATEDIFF( curdate(),DATE_ORDERED) <=90" +
+                " group by title  order by sum DESC limit 10";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         ArrayList<Pair<String, Integer>> result = new ArrayList<>();

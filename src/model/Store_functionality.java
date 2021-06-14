@@ -10,6 +10,8 @@ public interface Store_functionality {
     public boolean add_new_book(Book book) throws SQLException;
     public String modify_existing_book(Book book, int quantity) throws SQLException;
     public boolean place_order(Book_Order order) throws SQLException;
+
+    boolean confirm_sales(Book_Order order) throws SQLException;
     public String confirm_order(Book_Order order) throws SQLException;
     public void search_for_book(SearchBookQuery sq) throws SQLException;
     public User get_user(String user_name , String password) throws SQLException;

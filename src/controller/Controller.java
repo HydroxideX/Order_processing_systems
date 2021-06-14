@@ -48,7 +48,7 @@ public class Controller {
             try {
                 order.setCopies(-1 * order.getCopies() );
                 store.modify_existing_book(order.getTitle(), order.getISBN(),  order.getCopies());
-                store.place_order(order);
+                store.confirm_sales(order);
                 result.insert_record(order.getTitle(), true, store.get_available_book_with_isbn(order.getISBN()),-1 *  order.getCopies());
                 price+=order.get_total_price();
             } catch (SQLException e) {
@@ -147,6 +147,9 @@ public class Controller {
         return store.get_available_book_with_isbn(ISBN);
     }
 
+    public boolean confirm_sales(Book_Order order) throws SQLException {
+        return store.confirm_sales(order);
+    }
     public boolean add_new_book(Book book) {
         try {
             return store.add_new_book(book);
