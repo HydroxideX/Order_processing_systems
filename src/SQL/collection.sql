@@ -4,22 +4,22 @@ USE BOOK_STORE;
 SET SQL_SAFE_UPDATES = 0;
 
 CREATE TABLE PUBLISHER (
-                           PUBLISHER_NAME VARCHAR (30) PRIMARY KEY NOT NULL UNIQUE,
-                           ADDRESS VARCHAR(30),
-                           PHONE VARCHAR(30)
+		   PUBLISHER_NAME VARCHAR (30) PRIMARY KEY NOT NULL UNIQUE,
+		   ADDRESS VARCHAR(30),
+		   PHONE VARCHAR(30)
 );
 
 CREATE TABLE ONLINE_USER (
-                             USER_NAME VARCHAR(30) NOT NULL UNIQUE,
-                             PASSWORD VARCHAR(30) NOT NULL,
-                             EMAIL_ADDRESS VARCHAR(30) NOT NULL UNIQUE,
-                             FNAME VARCHAR(30),
-                             LNAME VARCHAR(30),
-                             PHONE_NO VARCHAR(30),
-                             SHIPPING_ADDRESS VARCHAR(30),
-                             MANAGER BOOL DEFAULT 0,
-                             PRIMARY KEY(USER_NAME, EMAIL_ADDRESS),
-                             INDEX (USER_NAME)
+		 USER_NAME VARCHAR(30) NOT NULL UNIQUE,
+		 PASSWORD VARCHAR(30) NOT NULL,
+		 EMAIL_ADDRESS VARCHAR(30) NOT NULL UNIQUE,
+		 FNAME VARCHAR(30),
+		 LNAME VARCHAR(30),
+		 PHONE_NO VARCHAR(30),
+		 SHIPPING_ADDRESS VARCHAR(30),
+		 MANAGER BOOL DEFAULT 0,
+		 PRIMARY KEY(USER_NAME, EMAIL_ADDRESS),
+		 INDEX (USER_NAME)
 );
 
 CREATE TABLE AUTHOR (
@@ -149,3 +149,4 @@ begin
     update   book set copies = copies + old.COPIES where ISBN = old.ISBN ;
 end;
 
+select * from book;

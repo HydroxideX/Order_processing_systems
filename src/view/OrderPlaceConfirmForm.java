@@ -67,7 +67,7 @@ public class OrderPlaceConfirmForm extends Application {
                 if(rm.check_varchar(title.getText())) {
                     orderBuilder.setTitle(title.getText());
                 }
-                if (rm.check_int(copies.getText())) {
+                if (rm.check_no(copies.getText())) {
                     orderBuilder.setCopies(su.String_to_int(copies.getText()));
                 }
                 orderBuilder.setUser_name(controller.get_username());

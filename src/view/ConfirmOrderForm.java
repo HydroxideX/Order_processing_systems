@@ -105,7 +105,8 @@ public class ConfirmOrderForm extends Application {
                  x = tableTransferUtil.convertOrdersTOArray(orders_temp);
                 tableTransferUtil.updateTable(x, table);
             } catch (Exception ex) {
-                System.out.println("Error displaying Table");
+                System.out.println(ex.getMessage());
+                componentsBuilder.showAlert(Alert.AlertType.ERROR, stage.getScene().getWindow(), "Error!", "Order is wrong or threshold is less than the number to be removed");
             }
         });
     }

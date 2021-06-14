@@ -110,7 +110,7 @@ public class Store_functionality_implementation implements Store_functionality {
 
     @Override
     public void get_manager_orders(BookOrderQuery oq) throws SQLException {
-        String sql = "SELECT * FROM BOOK_ORDER WHERE COPIES > 0";
+        String sql = "SELECT * FROM BOOK_ORDER";
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {

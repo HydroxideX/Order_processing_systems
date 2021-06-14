@@ -44,6 +44,12 @@ public class regex_matcher {
         return match_string(s, int_regex);
     }
 
+    public boolean check_no(String s) {
+        if (s == null) return false;
+        String int_regex = "^([+-]?\\d+)$";
+        return match_string(s, int_regex);
+    }
+
     public boolean check_float(String s) {
         if (s == null) return false;
         String float_regex = "^([+]?\\d+(\\.\\d+)?)$";
